@@ -211,6 +211,60 @@ a:hover {
 }
 .photo-banner {
 }
+<<<<<<< HEAD
+=======
+
+.main__banner {
+}
+
+/*
+ * ─────────────────────────────────────────────────────────────────── BANNER ─────
+ */
+
+.banner {
+	display: flex;
+	align-items: center;
+}
+.banner__container {
+}
+.banner__wrapper {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-direction: row;
+	margin: 0 -15px;
+}
+.banner__wrapper > * {
+	margin: 0 15px;
+}
+.banner__header {
+	position: relative;
+	flex: 2;
+}
+.banner__title {
+	user-select: none;
+	color: #f6f0e9;
+	font-size: 120px;
+}
+.banner__subtitile {
+	line-height: 1.4em;
+}
+.banner__subtitile > * {
+	padding-top: 20px;
+}
+.banner__my-name {
+}
+.banner__my-target {
+}
+.banner__my-key-skills {
+	color: #e2e5ec;
+}
+.banner__photo {
+	flex: 1;
+}
+.photo-banner {
+}
+>>>>>>> 120a649 (Сверстан баннер)
 .photo-banner__body {
 	position: relative;
 	user-select: none;
