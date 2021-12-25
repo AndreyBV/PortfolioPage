@@ -1,0 +1,142 @@
+/*
+ * ─── BASE ───────────────────────────────────────────────────────────────────────
+ */
+
+html,
+body {
+	height: 100%;
+	background: #242933;
+	font-family: 'Roboto Mono', sans-serif;
+	font-size: 1.15em;
+	font-weight: 400;
+	line-height: 1;
+	color: #596172;
+}
+a {
+	color: #f6f0e9;
+	transition: all 0.15s ease-in;
+}
+a:hover {
+	color: #ec4c56;
+}
+:focus {
+	outline: none;
+}
+
+._container {
+	max-width: 1045px;
+	padding: 0 30px;
+	margin: 0 auto;
+	box-sizing: content-box;
+}
+.none {
+	display: none !important;
+}
+
+.wrapper {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+/*
+ * ─── HEADER ─────────────────────────────────────────────────────────────────────
+ */
+
+.header {
+	position: fixed;
+	width: 100%;
+	background-color: #242933;
+	z-index: 50;
+	box-shadow: 0 0 5px 4px #181d248c;
+	flex: 0 0 auto;
+}
+.header__container {
+}
+.header__top {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 20px 0;
+}
+.header__logo {
+	font-size: 1.5em;
+	font-weight: 500;
+	color: #ec4c56;
+	text-transform: capitalize;
+}
+.header__cards-navigation {
+}
+.header__nav-button-wrapper {
+	padding: 20px 10px;
+	margin-right: -10px;
+	cursor: pointer;
+}
+.header__nav-button {
+	position: relative;
+}
+.nav-button {
+	min-width: 35px;
+}
+.nav-button__icon {
+	display: block;
+	background-color: #ec4c56;
+	height: 3px;
+}
+.nav-button__icon::before,
+.nav-button__icon::after {
+	content: '';
+	position: absolute;
+	display: block;
+	background-color: #ec4c56;
+	height: 3px;
+	min-width: 35px;
+}
+.nav-button__icon::before {
+	transform: translateY(-10px);
+}
+.nav-button__icon::after {
+	transform: translateY(10px);
+}
+
+/*
+ * ─── MAIN ───────────────────────────────────────────────────────────────────────
+ */
+.main {
+	flex: 1 0 auto;
+}
+/*
+ * ─── FOOTER ─────────────────────────────────────────────────────────────────────
+ */
+.footer {
+	flex: 0 0 auto;
+}
+.footer__container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 50px;
+}
+.footer__container > *:not(:first-child) {
+	padding-top: 15px;
+}
+
+.footer__logo {
+	font-size: 1.4rem;
+	font-weight: 500;
+	color: #ec4c56;
+	text-transform: capitalize;
+}
+.footer__social-media {
+	text-align: center;
+}
+.footer__social-media ul {
+	display: flex;
+}
+.footer__social-media li {
+	font-size: 1.2em;
+	padding: 0 10px;
+}
+.footer__copyright {
+	font-size: 1rem;
+}

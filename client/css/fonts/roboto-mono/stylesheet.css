@@ -1,0 +1,35 @@
+
+
+@font-face {
+    font-family: 'Roboto Mono';
+    src: url('RobotoMono-Medium.eot');
+    src: local('Roboto Mono Medium'), local('RobotoMono-Medium'),
+        url('RobotoMono-Medium.eot?#iefix') format('embedded-opentype'),
+        url('RobotoMono-Medium.woff') format('woff'),
+        url('RobotoMono-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+
+@font-face {
+    font-family: 'Roboto Mono';
+    src: url('RobotoMono-Bold.eot');
+    src: local('Roboto Mono Bold'), local('RobotoMono-Bold'),
+        url('RobotoMono-Bold.eot?#iefix') format('embedded-opentype'),
+        url('RobotoMono-Bold.woff') format('woff'),
+        url('RobotoMono-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Roboto Mono';
+    src: url('RobotoMono-Regular.eot');
+    src: local('Roboto Mono'), local('RobotoMono-Regular'),
+        url('RobotoMono-Regular.eot?#iefix') format('embedded-opentype'),
+        url('RobotoMono-Regular.woff') format('woff'),
+        url('RobotoMono-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
