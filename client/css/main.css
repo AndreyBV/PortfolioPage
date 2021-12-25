@@ -224,6 +224,7 @@ a:hover {
 .banner {
 	display: flex;
 	align-items: center;
+	height: 100vh;
 }
 .banner__container {
 }
