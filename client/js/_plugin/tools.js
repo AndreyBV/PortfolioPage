@@ -39,3 +39,7 @@ export function checkInSight(target, funcVisible, funcUnvisible) {
 export function isHTMLElement(target) {
 	return !isNull(target) && target instanceof HTMLElement;
 }
+export function isContains(target, selector) {
+	if (isHTMLElement(target)) return !!target.querySelector(selector);
+	else throw new Error('* Target is not HTMLElement!');
+}
