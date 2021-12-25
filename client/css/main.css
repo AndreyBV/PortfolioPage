@@ -158,6 +158,88 @@ a:hover {
           flex: 1 0 auto;
 }
 
+<<<<<<< HEAD
+=======
+.main__banner {
+}
+
+/*
+ * ─────────────────────────────────────────────────────────────────── BANNER ─────
+ */
+
+.banner {
+	display: flex;
+	align-items: center;
+}
+.banner__container {
+}
+.banner__wrapper {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-direction: row;
+	margin: 0 -15px;
+}
+.banner__wrapper > * {
+	margin: 0 15px;
+}
+.banner__header {
+	position: relative;
+	flex: 2;
+}
+.banner__title {
+	user-select: none;
+	color: #f6f0e9;
+	font-size: 120px;
+}
+.banner__subtitile {
+	line-height: 1.4em;
+}
+.banner__subtitile > * {
+	padding-top: 20px;
+}
+.banner__my-name {
+}
+.banner__my-target {
+}
+.banner__my-key-skills {
+	color: #e2e5ec;
+}
+.banner__photo {
+	flex: 1;
+}
+.photo-banner {
+}
+.photo-banner__body {
+	position: relative;
+	user-select: none;
+}
+.photo-banner__filter {
+}
+.photo-banner__filter::before,
+.photo-banner__filter::after {
+	content: '';
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	background-color: #242933;
+}
+.photo-banner__filter::before {
+	mix-blend-mode: lighten;
+}
+.photo-banner__filter::after {
+	mix-blend-mode: color;
+}
+.photo-banner__avatar {
+}
+.photo-banner__avatar img {
+	max-width: 100%;
+}
+
+/*
+ * ─── FOOTER ─────────────────────────────────────────────────────────────────────
+ */
+>>>>>>> adb5df6 (Сверстан баннер)
 .footer {
   -webkit-box-flex: 0;
       -ms-flex: 0 0 auto;
