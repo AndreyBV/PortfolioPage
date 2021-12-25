@@ -43,3 +43,6 @@ export function isContains(target, selector) {
 	if (isHTMLElement(target)) return !!target.querySelector(selector);
 	else throw new Error('* Target is not HTMLElement!');
 }
+export function isNull(target) {
+	return target === null;
+}
