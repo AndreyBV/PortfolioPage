@@ -1,0 +1,20 @@
+@media (max-width: 1100px) {
+	.banner__photo {
+		display: none;
+	}
+}
+
+@media (max-width: 600px) {
+	.banner__title {
+		font-size: 80px;
+	}
+	.banner__subtitile {
+		font-size: 1rem;
+	}
+}
+
+@media (max-width: 420px) {
+	.banner__title {
+		font-size: 60px;
+	}
+}
