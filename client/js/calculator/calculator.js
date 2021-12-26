@@ -102,3 +102,93 @@ function buildKeyboard() {
 	}
 }
 buildKeyboard();
+
+//
+// ─── CALCULATOR LOGIC ───────────────────────────────────────────────────────────
+//
+
+class Calculator {
+	constructor() {
+		this.expressionDisplay = '';
+		this.resultDisplay = '';
+
+		this.currentInput = '';
+		this.historyInput = '';
+		this.result = 0;
+
+		this.solutionExpression = [];
+		this.historyCalculation = [];
+		this.priorityOperators = new Map([
+			[15, ['^']],
+			[14, ['*', '/', '%']],
+			[13, ['+', '-']],
+		]);
+	}
+
+	updateExpressionDisplay() {}
+	updateResultDisplay() {}
+
+	calculateBracketExpression(inputExpression) {
+		const closeBracketIndex = inputExpression.indexOf(')');
+		const openBracketIndex = inputExpression.substring(0, closeBracketIndex).lastIndexOf('(');
+
+		if (~closeBracketIndex && ~openBracketIndex) {
+			const innerExpression = inputExpression.substring(openBracketIndex, closeBracketIndex + 1);
+			let cleanInnerExpression = innerExpression.replace('(', '').replace(')', '');
+			const resultExpression = this.calculateLongExpression(cleanInnerExpression);
+			let updatedInnerExpression = inputExpression.replaceAll(innerExpression, resultExpression);
+			return this.calculateBracketExpression(updatedInnerExpression);
+		} else {
+			return this.calculateLongExpression(inputExpression);
+		}
+	}
+	calculateLongExpression(inputExpression) {
+		for (let operators of this.priorityOperators.values()) {
+			let operatorsExpression = inputExpression.split(' ').filter((item, index) => index % 2 == 1);
+			operatorsExpression.map(item => {
+				if (operators.includes(item)) {
+					let patternExpression =
+						'[-+]?[0-9]+[.,]?([0-9]+(?:[eE][-+]?[0-9]+)?)? \\' +
+						item +
+						' [-+]?[0-9]+[.,]?([0-9]+(?:[eE][-+]?[0-9]+)?)?';
+					let innerExpression = inputExpression.match(patternExpression)[0];
+					let partsInnerExpression = innerExpression.trim().split(' ');
+					let resultExpression = this.calculateSimpleExpression(...partsInnerExpression);
+
+					this.solutionExpression.push({
+						expression: innerExpression + ' =',
+						result: resultExpression,
+					});
+					inputExpression = inputExpression.replace(innerExpression, resultExpression);
+				}
+			});
+		}
+		return +inputExpression;
+	}
+	calculateSimpleExpression(leftOperand, operator, rightOperand) {
+		switch (operator) {
+			case '+':
+				return parseFloat(leftOperand) + parseFloat(rightOperand);
+			case '-':
+				return parseFloat(leftOperand) - parseFloat(rightOperand);
+			case '*':
+				return parseFloat(leftOperand) * parseFloat(rightOperand);
+			case '/':
+				return parseFloat(leftOperand) / parseFloat(rightOperand);
+			case '^':
+				return Math.pow(parseFloat(leftOperand), parseFloat(rightOperand));
+			case '%':
+				return parseFloat(leftOperand) % parseFloat(rightOperand);
+			default:
+				break;
+		}
+	}
+}
+
+const calc = new Calculator();
+let test = calc.calculateBracketExpression('(24 + 5) * (2 * 3) - 1');
+console.log(test);
+test = calc.calculateLongExpression('1 + 2 * 3 + 2 ^ 3 ^ 1');
+console.log(test);
+test = calc.calculateSimpleExpression('1', '+', '3');
+console.log(test);
