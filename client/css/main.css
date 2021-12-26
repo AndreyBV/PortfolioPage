@@ -267,7 +267,7 @@ a:hover {
 .keyboard-calculator > *:last-child:hover {
 	background-color: #ec4c56;
 }
-.keyboard-calculator__template {
+.keyboard-calculator__button-template {
 }
 .keyboard-calculator__button {
 	user-select: none;
