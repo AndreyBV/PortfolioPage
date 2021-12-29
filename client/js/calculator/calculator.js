@@ -70,7 +70,8 @@ class Calculator {
 				!this.conditions.isContainsBrackets(),
 
 			equalAgain: () => this.historyInputRaw[1] === '=' && this.currentInput === '=',
-			equalAfterOperator: () => !this.isNumber(this.lastInput) && this.currentInput === '=',
+			equalAfterOperator: () =>
+				!this.isNumber(this.lastInput) && !this.conditions.afterBracket() && this.currentInput === '=',
 
 			operatorAfterOperand: () =>
 				(this.isNumber(this.lastInput) || this.conditions.afterBracket()) &&
@@ -282,9 +283,10 @@ class Calculator {
 				this.historyInputFiltered.unshift(lastOperator);
 				this.historyInputFiltered.unshift(lastOperand);
 			}
+			console.log(111111111);
 		} else if (this.conditions.equalAfterOperator()) this.historyInputFiltered.unshift(this.resultDisplay);
-		if (this.currentInput === '=') this.fillingBrackets();
 
+		if (this.currentInput === '=') this.fillingBrackets();
 		const expression = this.expressionFormatting(this.historyInputFiltered);
 		this.result = this.calculateBracketExpression(expression);
 		this.debagInfo('result');
