@@ -160,10 +160,10 @@ class Calculator {
 				break;
 			case '⌫':
 			case 'Backspace':
-				this.remove();
+				this.removeDigit();
 				break;
 			case '+/-':
-				this.invert();
+				this.invertSign();
 				break;
 			case '(':
 			case ')':
@@ -193,25 +193,28 @@ class Calculator {
 		this.solutionExpression = [];
 		this.historyCalculation = [];
 	}
-	remove() {
+
+	removeDigit() {
 		if (this.conditions.afterEqual()) {
 			this.historyInputFiltered.length = 0;
 			this.historyInputFiltered.unshift(this.result);
 		} else if (this.isNumber(this.lastInput)) {
-			console.log(this.lastInput);
 			this.lastInput = this.lastInput.slice(0, this.lastInput.length - 1);
 			if (this.lastInput === '') this.historyInputFiltered.shift();
 		}
 		this.result = NaN;
 		this.debagInfo('remove');
 	}
-	invert() {
+
+	invertSign() {
 		if (this.conditions.afterEqual()) {
 			this.historyInputFiltered.length = 0;
 			this.historyInputFiltered.unshift(this.result * -1);
 		} else if (this.isNumber(this.lastInput)) this.lastInput = this.lastInput * -1;
+		this.result = NaN;
 		this.debagInfo('invert');
 	}
+
 	setBracket() {
 		if (this.conditions.afterEqual()) {
 			this.historyInputFiltered.length = 0;
@@ -227,6 +230,7 @@ class Calculator {
 			const [openBrackets, closeBrackets] = this.getOpenCloseBrackets.call(this);
 			if (openBrackets.length > closeBrackets.length) this.historyInputFiltered.unshift(this.currentInput);
 		}
+		this.result = NaN;
 		this.debagInfo('Brackets');
 	}
 	fillingBrackets() {
@@ -245,6 +249,7 @@ class Calculator {
 		const closeBrackets = Array.from(stringExpression.matchAll('\\)'));
 		return [openBrackets, closeBrackets];
 	}
+
 	getResult() {
 		if (this.conditions.reEqual()) {
 			const lastOperand = this.historyInputFiltered.find(item => this.isNumber(item));
@@ -259,10 +264,11 @@ class Calculator {
 			}
 		} else if (this.conditions.operatorEqual()) this.historyInputFiltered.unshift(this.resultDisplay);
 		if (this.currentInput === '=') this.fillingBrackets(true);
-		const expression = this.stylizationExpression(this.historyInputFiltered);
+		const expression = this.expressionFormatting(this.historyInputFiltered);
 		this.result = this.calculateBracketExpression(expression);
 		this.debagInfo('result');
 	}
+
 	updateExpression() {
 		this.inputOperand();
 		this.inputOperator();
@@ -314,7 +320,7 @@ class Calculator {
 		if (this.isNumber(this.lastInput) && this.currentInput !== '=')
 			expressionDisplayValue = this.historyInputFiltered.slice(1);
 		else expressionDisplayValue = this.historyInputFiltered;
-		this.expressionDisplay = this.stylizationExpression(expressionDisplayValue);
+		this.expressionDisplay = this.expressionFormatting(expressionDisplayValue);
 	}
 	updateResultDisplay() {
 		if (!isNaN(this.result) && (this.currentInput === '=' || !this.isNumber(this.lastInput))) {
@@ -326,7 +332,7 @@ class Calculator {
 			this.resultDisplay = '0';
 	}
 
-	stylizationExpression(expressionArray) {
+	expressionFormatting(expressionArray) {
 		return this.reversArray(expressionArray).join(' ').replaceAll('( ', '(').replaceAll(' )', ')');
 	}
 
