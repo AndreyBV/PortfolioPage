@@ -199,6 +199,7 @@ class Calculator {
 			this.historyInputFiltered.length = 0;
 			this.historyInputFiltered.unshift(this.result);
 		} else if (this.isNumber(this.lastInput)) {
+			if (this.lastInput.length === 2 && +this.lastInput < 0) this.lastInput = '';
 			this.lastInput = this.lastInput.slice(0, this.lastInput.length - 1);
 			if (this.lastInput === '') this.historyInputFiltered.shift();
 		}
@@ -209,8 +210,9 @@ class Calculator {
 	invertSign() {
 		if (this.conditions.afterEqual()) {
 			this.historyInputFiltered.length = 0;
-			this.historyInputFiltered.unshift(this.result * -1);
-		} else if (this.isNumber(this.lastInput)) this.lastInput = this.lastInput * -1;
+			this.historyInputFiltered.unshift(String(this.result * -1));
+		} else if (this.isNumber(this.lastInput)) this.lastInput = String(this.lastInput * -1);
+		console.log(this.lastInput);
 		this.result = NaN;
 		this.debagInfo('invert');
 	}
