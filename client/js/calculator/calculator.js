@@ -1,114 +1,14 @@
+import { calculatorBuild } from './calculator-build.js';
+
 //
 // ─── CALCULATOR ─────────────────────────────────────────────────────────────────
 //
 
-const DOM = {
-	calculatorBody: 'calculator__body',
-
-	displayContainer: 'display-calculator',
-	displayExpression: 'display-calculator__expression',
-	displayResult: 'display-calculator__result',
-
-	keyboardContainer: 'keyboard-calculator',
-	keyboardButtonTemplate: 'keyboard-calculator__button-template',
-	keyboardButton: 'keyboard-calculator__button',
-	keyboardOperator: 'keyboard-calculator__button-operator',
-	keyboardOperand: 'keyboard-calculator__button-operand',
-	keyboardEqual: 'keyboard-calculator__button-equal',
-	keyboardLeftCorner: 'keyboard-calculator__button-left-corner',
-
-	historyContainer: 'history-calculator',
-	historyBody: 'history-calculator__body',
-	historyItem: 'history-calculator__item',
-	historyItemExpression: 'history-calculator__expression',
-	historyItemResult: 'history-calculator__result',
-	historyClearButton: 'history-calculator__clear-button',
-};
-
-for (let calculatorElement in DOM) {
-	DOM[calculatorElement] = {
-		class: DOM[calculatorElement],
-		html: document.querySelector('.' + DOM[calculatorElement]),
-	};
-}
-
-console.log(DOM);
-//
-// ─── GENERATION-CALCULATOR ──────────────────────────────────────────────────────
-//
-
-// Операторы, операнды и их порядок в grid
-const keyboardSymbols = {
-	operators: new Map([
-		['%', 5],
-		['C', 3],
-		['⌫', 4],
-		['/', 8],
-		['*', 12],
-		['-', 16],
-		['+', 20],
-		['+/-', 7],
-		['^', 6],
-		['(', 1],
-		[')', 1],
-		['=', 23],
-	]),
-	operands: new Map([
-		['9', 11],
-		['8', 10],
-		['7', 9],
-		['6', 15],
-		['5', 14],
-		['4', 13],
-		['3', 19],
-		['2', 18],
-		['1', 17],
-		['0', 22],
-		['.', 21],
-	]),
-};
-
-function buildKeyboard() {
-	const templateButton = DOM.keyboardButtonTemplate.html.content.querySelector(
-		'.' + DOM.keyboardButton.class
-	);
-
-	for (let symbolCategory in keyboardSymbols) {
-		for (let symbolKeyboard of keyboardSymbols[symbolCategory].keys()) {
-			templateButton.textContent = symbolKeyboard;
-			let button = templateButton.cloneNode(true);
-			switch (symbolCategory) {
-				case 'operators':
-					button.classList.add(DOM.keyboardOperator.class);
-					break;
-				case 'operands':
-					button.classList.add(DOM.keyboardOperand.class);
-					break;
-				default:
-					break;
-			}
-			// Дополнительная стилизация кнопок
-			if (keyboardSymbols[symbolCategory].get(symbolKeyboard) === 23)
-				button.classList.add(DOM.keyboardEqual.class);
-			if (keyboardSymbols[symbolCategory].get(symbolKeyboard) === 21)
-				button.classList.add(DOM.keyboardLeftCorner.class);
-
-			let orderGridButton = keyboardSymbols[symbolCategory].get(symbolKeyboard);
-			button.style.order = orderGridButton;
-			DOM.keyboardContainer.html.append(button);
-		}
-	}
-}
-buildKeyboard();
-
-//
-// ─── CALCULATOR LOGIC ───────────────────────────────────────────────────────────
-//
-
 class Calculator {
-	constructor() {
-		this._expressionDisplay = DOM.displayExpression.html.innerText;
-		this._resultDisplay = DOM.displayResult.html.innerText;
+	constructor(DOMElements) {
+		calculatorBuild(DOMElements);
+		this._expressionDisplay = DOMElements.displayExpression.html.innerText;
+		this._resultDisplay = DOMElements.displayResult.html.innerText;
 
 		this.currentInput = '';
 		this.historyInputRaw = [];
@@ -128,8 +28,8 @@ class Calculator {
 		this.initial();
 	}
 	initial() {
-		DOM.calculatorBody.html.addEventListener('click', this);
-		DOM.calculatorBody.html.addEventListener('keydown', this);
+		DOMElements.calculatorBody.html.addEventListener('click', this);
+		DOMElements.calculatorBody.html.addEventListener('keydown', this);
 
 		this.historyInputFiltered = new Proxy(this._historyInputFiltered, {
 			get: (target, prop, receiver) => {
@@ -165,9 +65,7 @@ class Calculator {
 				!this.conditions.isBrackets(),
 
 			reEqual: () => this.historyInputRaw[1] === '=' && this.currentInput === '=',
-			operatorEqual: () =>
-				// && !this.conditions.isBrackets()
-				!this.isNumber(this.lastInput) && this.currentInput === '=',
+			operatorEqual: () => !this.isNumber(this.lastInput) && this.currentInput === '=',
 			badEqual: () => this.isNumber(this.lastInput) && this.historyInputFiltered.length === 1,
 
 			operandOperator: () =>
@@ -208,14 +106,14 @@ class Calculator {
 	}
 	set expressionDisplay(value) {
 		this._expressionDisplay = value;
-		DOM.displayExpression.html.innerText = value;
+		DOMElements.displayExpression.html.innerText = value;
 	}
 	get resultDisplay() {
 		return this._resultDisplay;
 	}
 	set resultDisplay(value) {
 		this._resultDisplay = value;
-		DOM.displayResult.html.innerText = value;
+		DOMElements.displayResult.html.innerText = value;
 	}
 
 	debagInfo(title) {
@@ -223,6 +121,7 @@ class Calculator {
 		console.log(this);
 		console.log(this.reversArray(this.historyInputFiltered));
 	}
+
 	//
 	// ───────────────────────────────────────────────────── USER ACTION HANDLERS ─────
 	//
@@ -232,19 +131,17 @@ class Calculator {
 		this[method](event);
 	}
 	onKeydown(event) {
-		console.log(event);
 		this.currentInput = event.key;
 		this.handlerInput();
 	} // Ввод с клавиатуры
 
 	onClick(event) {
 		let target = event.target;
-		if (target.classList.contains(DOM.keyboardButton.class)) {
+		if (target.classList.contains(DOMElements.keyboardButton.class)) {
 			this.currentInput = target.innerText;
 			this.handlerInput();
 		} // Клик по какой-либо кнопке клавиатуры калькулятора
-		else if (target.classList.contains(DOM.displayContainer.class)) {
-			console.log(event);
+		else if (target.classList.contains(DOMElements.displayContainer.class)) {
 		} // Клик по дисплею
 	}
 
@@ -262,14 +159,14 @@ class Calculator {
 				break;
 			case '⌫':
 			case 'Backspace':
-				this.removeSymbol();
+				this.remove();
 				break;
 			case '+/-':
-				this.invertOperand();
+				this.invert();
 				break;
 			case '(':
 			case ')':
-				this.addBracket();
+				this.setBracket();
 				break;
 			case '=':
 			case 'Enter':
@@ -277,26 +174,25 @@ class Calculator {
 				break;
 			default:
 				this.updateExpression(); // + - / * % ^
+				break;
 		}
 	}
 
 	reset() {
 		this.expressionDisplay = '';
-		this.resultDisplay = '';
+		this.resultDisplay = '0';
 
 		this.currentInput = '';
 		this.lastInput = '';
-		this.result = NaN;
+
 		this.historyInputRaw.length = 0;
 		this.historyInputFiltered.length = 0;
+		this.result = NaN;
 
 		this.solutionExpression = [];
 		this.historyCalculation = [];
-
-		this.expressionDisplay = '';
-		this.resultDisplay = '0';
 	}
-	removeSymbol() {
+	remove() {
 		if (this.conditions.afterEqual()) {
 			this.historyInputFiltered.length = 0;
 			this.historyInputFiltered.unshift(this.result);
@@ -308,14 +204,14 @@ class Calculator {
 		this.result = NaN;
 		this.debagInfo('remove');
 	}
-	invertOperand() {
+	invert() {
 		if (this.conditions.afterEqual()) {
 			this.historyInputFiltered.length = 0;
 			this.historyInputFiltered.unshift(this.result * -1);
 		} else if (this.isNumber(this.lastInput)) this.lastInput = this.lastInput * -1;
 		this.debagInfo('invert');
 	}
-	addBracket() {
+	setBracket() {
 		if (this.conditions.afterEqual()) {
 			this.historyInputFiltered.length = 0;
 		}
@@ -349,7 +245,6 @@ class Calculator {
 		return [openBrackets, closeBrackets];
 	}
 	getResult() {
-		// if (this.conditions.badEqual()) return;
 		if (this.conditions.reEqual()) {
 			const lastOperand = this.historyInputFiltered.find(item => this.isNumber(item));
 			const lastOperator = this.historyInputFiltered.find(
@@ -512,4 +407,33 @@ class Calculator {
 	}
 }
 
-const calc = new Calculator();
+const DOMElements = {
+	calculatorBody: 'calculator__body',
+
+	displayContainer: 'display-calculator',
+	displayExpression: 'display-calculator__expression',
+	displayResult: 'display-calculator__result',
+
+	keyboardContainer: 'keyboard-calculator',
+	keyboardButtonTemplate: 'keyboard-calculator__button-template',
+	keyboardButton: 'keyboard-calculator__button',
+	keyboardOperator: 'keyboard-calculator__button-operator',
+	keyboardOperand: 'keyboard-calculator__button-operand',
+	keyboardEqual: 'keyboard-calculator__button-equal',
+	keyboardLeftCorner: 'keyboard-calculator__button-left-corner',
+
+	historyContainer: 'history-calculator',
+	historyBody: 'history-calculator__body',
+	historyItem: 'history-calculator__item',
+	historyItemExpression: 'history-calculator__expression',
+	historyItemResult: 'history-calculator__result',
+	historyClearButton: 'history-calculator__clear-button',
+};
+for (let calculatorElement in DOMElements) {
+	DOMElements[calculatorElement] = {
+		class: DOMElements[calculatorElement],
+		html: document.querySelector('.' + DOMElements[calculatorElement]),
+	};
+}
+
+const calculator = new Calculator(DOMElements);
