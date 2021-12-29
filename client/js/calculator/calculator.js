@@ -48,37 +48,37 @@ class Calculator {
 		});
 
 		this.conditions = {
+			atStart: () => this.historyInputFiltered.length === 0,
+
 			isOperand: () => this.isNumber(this.currentInput) || this.isDot(this.currentInput),
 			fillingOperand: () => this.isNumber(this.lastInput) || this.isDot(this.currentInput),
 			isOperator: () => !this.isNumber(this.currentInput) && !this.isDot(this.currentInput),
 
-			atStart: () => this.historyInputFiltered.length === 0,
-
 			afterEqual: () => this.historyInputRaw[1] === '=' && !isNaN(this.result),
-			reOperator: () =>
+			operatorAgain: () =>
 				!this.isDot(this.currentInput) &&
 				!this.isNumber(this.currentInput) &&
 				!this.isNumber(this.lastInput) &&
-				!this.conditions.isLastBracket() &&
+				!this.conditions.lastIsBracket() &&
 				this.historyInputFiltered.length !== 0,
-			chainOperators: () =>
+			operatorsChain: () =>
 				!this.isDot(this.currentInput) &&
 				!this.isNumber(this.currentInput) &&
 				!this.isNumber(this.historyInputFiltered[1]) &&
 				this.historyInputFiltered[1] !== undefined &&
 				!this.conditions.isBrackets(),
 
-			reEqual: () => this.historyInputRaw[1] === '=' && this.currentInput === '=',
-			operatorEqual: () => !this.isNumber(this.lastInput) && this.currentInput === '=',
-			badEqual: () => this.isNumber(this.lastInput) && this.historyInputFiltered.length === 1,
+			equalAgain: () => this.historyInputRaw[1] === '=' && this.currentInput === '=',
+			equalAfterOperator: () => !this.isNumber(this.lastInput) && this.currentInput === '=',
 
-			operandOperator: () =>
-				(this.isNumber(this.lastInput) || this.conditions.isLastBracket()) &&
+			operatorAfterOperand: () =>
+				(this.isNumber(this.lastInput) || this.conditions.lastIsBracket()) &&
 				!this.isNumber(this.currentInput),
 
 			isBrackets: () => ~this.historyInputFiltered.indexOf('('),
-			isLastBracket: () => this.lastInput === ')' || this.lastInput === '(',
-			afterOpenBracket: () => !this.isNumber(this.currentInput) && this.lastInput === '(',
+			lastIsBracket: () => this.lastInput === ')' || this.lastInput === '(',
+			afterOpenBracket: () => this.lastInput === '(',
+			afterCloseBrackets: () => this.lastInput === ')',
 		};
 		Object.defineProperty(this, 'conditions', {
 			writable: false,
@@ -215,7 +215,6 @@ class Calculator {
 			this.historyInputFiltered.length = 0;
 			this.historyInputFiltered.unshift(String(this.result * -1));
 		} else if (this.isNumber(this.lastInput)) this.lastInput = String(this.lastInput * -1);
-		console.log(this.lastInput);
 		this.result = NaN;
 		this.debagInfo('invert');
 	}
@@ -256,7 +255,7 @@ class Calculator {
 	}
 
 	getResult() {
-		if (this.conditions.reEqual()) {
+		if (this.conditions.equalAgain()) {
 			const lastOperand = this.historyInputFiltered.find(item => this.isNumber(item));
 			const lastOperator = this.historyInputFiltered.find(
 				item => !this.isNumber(item) && !this.isBracket(item)
@@ -267,7 +266,7 @@ class Calculator {
 				this.historyInputFiltered.unshift(lastOperator);
 				this.historyInputFiltered.unshift(lastOperand);
 			}
-		} else if (this.conditions.operatorEqual()) this.historyInputFiltered.unshift(this.resultDisplay);
+		} else if (this.conditions.equalAfterOperator()) this.historyInputFiltered.unshift(this.resultDisplay);
 		if (this.currentInput === '=') this.fillingBrackets(true);
 		const expression = this.expressionFormatting(this.historyInputFiltered);
 		this.result = this.calculateBracketExpression(expression);
@@ -306,20 +305,19 @@ class Calculator {
 				this.historyInputFiltered.unshift(this.result);
 			}
 			if (this.conditions.atStart()) {
-				console.log(111111111);
 				this.historyInputFiltered.unshift(this.resultDisplay);
 				this.historyInputFiltered.unshift(this.currentInput);
 			}
 			if (this.conditions.afterOpenBracket()) {
 				this.historyInputFiltered.unshift(this.resultDisplay);
 			}
-			if (this.conditions.reOperator()) {
+			if (this.conditions.operatorAgain()) {
 				this.lastInput = this.currentInput;
 			}
-			if (this.conditions.chainOperators()) {
+			if (this.conditions.operatorsChain()) {
 				this.getResult();
 			}
-			if (this.conditions.operandOperator()) {
+			if (this.conditions.operatorAfterOperand()) {
 				this.historyInputFiltered.unshift(this.currentInput);
 			}
 			this.debagInfo('operator');
