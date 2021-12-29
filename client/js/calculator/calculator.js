@@ -55,6 +55,7 @@ class Calculator {
 			fillingOperand: () => this.isNumber(this.lastInput) || this.conditions.isDot(this.currentInput),
 			isOperator: () => !this.isNumber(this.currentInput) && !this.conditions.isDot(this.currentInput),
 
+			afterInfinity: () => +this.result === Infinity,
 			afterEqual: () => this.historyInputRaw[1] === '=' && !isNaN(this.result),
 			operatorAgain: () =>
 				!this.conditions.isDot(this.currentInput) &&
@@ -119,6 +120,8 @@ class Calculator {
 		return this._resultDisplay;
 	}
 	set resultDisplay(value) {
+		console.log('reult disp');
+		console.log(value);
 		this._resultDisplay = value;
 		this.DOM.displayResult.html.innerText = value;
 	}
@@ -214,31 +217,39 @@ class Calculator {
 	}
 
 	removeDigit() {
-		if (this.conditions.afterEqual()) {
-			this.historyInputFiltered.length = 0;
-			this.historyInputFiltered.unshift(this.result);
-		} else if (this.isNumber(this.lastInput)) {
-			if (this.lastInput.length === 2 && +this.lastInput < 0) this.lastInput = '';
-			this.lastInput = this.lastInput.slice(0, this.lastInput.length - 1);
-			if (this.lastInput === '') this.historyInputFiltered.shift();
+		if (!this.conditions.afterInfinity()) {
+			if (this.conditions.afterEqual()) {
+				this.historyInputFiltered.length = 0;
+				this.historyInputFiltered.unshift(this.result);
+			} else if (this.isNumber(this.lastInput)) {
+				if (this.lastInput.length === 2 && +this.lastInput < 0) this.lastInput = '';
+				this.lastInput = this.lastInput.slice(0, this.lastInput.length - 1);
+				if (this.lastInput === '') this.historyInputFiltered.shift();
+			}
+			this.result = NaN;
+			this.debagInfo('remove');
 		}
-		this.result = NaN;
-		this.debagInfo('remove');
 	}
 
 	invertSign() {
-		if (this.conditions.afterEqual()) {
-			this.historyInputFiltered.length = 0;
-			this.historyInputFiltered.unshift(String(this.result * -1));
-		} else if (this.isNumber(this.lastInput)) this.lastInput = String(this.lastInput * -1);
-		this.result = NaN;
-		this.debagInfo('invert');
+		if (!this.conditions.afterInfinity()) {
+			if (this.conditions.afterEqual()) {
+				this.historyInputFiltered.length = 0;
+				this.historyInputFiltered.unshift(String(this.result * -1));
+			} else if (this.isNumber(this.lastInput)) this.lastInput = String(this.lastInput * -1);
+			this.result = NaN;
+		}
 	}
 
 	setBracket() {
 		if (this.conditions.afterEqual()) {
+			if (this.conditions.afterInfinity()) {
+				this.result = NaN;
+				this.resultDisplay = '0';
+			}
 			this.historyInputFiltered.length = 0;
 		}
+
 		if (this.currentInput === '(')
 			if (!this.isNumber(this.lastInput)) this.historyInputFiltered.unshift(this.currentInput);
 			else {
@@ -283,7 +294,6 @@ class Calculator {
 				this.historyInputFiltered.unshift(lastOperator);
 				this.historyInputFiltered.unshift(lastOperand);
 			}
-			console.log(111111111);
 		} else if (this.conditions.equalAfterOperator()) this.historyInputFiltered.unshift(this.resultDisplay);
 
 		if (this.currentInput === '=') this.fillingBrackets();
@@ -320,8 +330,7 @@ class Calculator {
 	}
 
 	inputOperator() {
-		if (this.conditions.isOperator()) {
-			console.log(this.historyInputFiltered.length);
+		if (this.conditions.isOperator() && !this.conditions.afterInfinity()) {
 			if (this.conditions.afterEqual()) {
 				this.historyInputFiltered.length = 0;
 				this.historyInputFiltered.unshift(this.result);
@@ -390,12 +399,13 @@ class Calculator {
 			let operatorsExpression = inputExpression.split(' ').filter((item, index) => index % 2 == 1);
 			operatorsExpression.map(item => {
 				if (operators.includes(item)) {
-					let patternExpression =
-						'[-+]?[0-9]+[.,]?([0-9]+(?:[eE][-+]?[0-9]+)?)? \\' +
-						item +
-						' [-+]?[0-9]+[.,]?([0-9]+(?:[eE][-+]?[0-9]+)?)?';
+					const regExpNumber = '([-+]?[0-9]+[.,]?([0-9]+(?:[eE][-+]?[0-9]+)?)?|Infinity)';
+					let patternExpression = `${regExpNumber} \\` + item + ` ${regExpNumber}`;
+					console.log(inputExpression);
 					let innerExpression = inputExpression.match(patternExpression)[0];
+					console.log(innerExpression);
 					let partsInnerExpression = innerExpression.trim().split(' ');
+					console.log(partsInnerExpression);
 					let resultExpression = this.calculateSimpleExpression(...partsInnerExpression);
 
 					this.solutionExpression.push({
