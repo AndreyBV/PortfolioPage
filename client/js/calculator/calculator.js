@@ -1,4 +1,4 @@
-import { calculatorBuild } from './calculator-build.js';
+import { calculatorBuild, keyboardSymbols } from './calculator-build.js';
 
 //
 // ─── CALCULATOR ─────────────────────────────────────────────────────────────────
@@ -137,15 +137,31 @@ class Calculator {
 		this[method](event);
 	}
 	onKeydown(event) {
-		this.currentInput = event.key;
-		this.handlerInput();
+		let input = event.key;
+		if (event.key === 'Enter') input = '=';
+		if (event.key === 'Backspace') input = '⌫';
+		if (event.key === 'Delete') input = 'C';
+		if ((event.altKey && event.key === '+') || (event.altKey && event.key === '-')) input = '+/-';
+
+		if (
+			keyboardSymbols.operands.get(input) !== undefined ||
+			keyboardSymbols.operators.get(input) !== undefined
+		) {
+			this.currentInput = input;
+			this.handlerInput();
+		}
 	} // Ввод с клавиатуры
 
 	onClick(event) {
 		let target = event.target;
 		if (target.classList.contains(this.DOM.keyboardButton.class)) {
-			this.currentInput = target.innerText;
-			this.handlerInput();
+			if (
+				keyboardSymbols.operands.get(target.innerText) !== undefined ||
+				keyboardSymbols.operators.get(target.innerText) !== undefined
+			) {
+				this.currentInput = target.innerText;
+				this.handlerInput();
+			}
 		} // Клик по какой-либо кнопке клавиатуры калькулятора
 		else if (target.classList.contains(this.DOM.displayContainer.class)) {
 		} // Клик по дисплею
@@ -160,11 +176,9 @@ class Calculator {
 		this.historyInputRaw.splice(this.limitRawHistory, this.historyInputRaw.length - 1);
 		switch (this.currentInput) {
 			case 'C':
-			case 'Delete':
 				this.reset();
 				break;
 			case '⌫':
-			case 'Backspace':
 				this.removeDigit();
 				break;
 			case '+/-':
@@ -175,7 +189,6 @@ class Calculator {
 				this.setBracket();
 				break;
 			case '=':
-			case 'Enter':
 				this.getResult();
 				break;
 			default:
