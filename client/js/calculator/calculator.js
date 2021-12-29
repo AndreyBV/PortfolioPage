@@ -6,9 +6,10 @@ import { calculatorBuild } from './calculator-build.js';
 
 class Calculator {
 	constructor(DOMElements) {
+		this.DOM = DOMElements;
 		calculatorBuild(DOMElements);
-		this._expressionDisplay = DOMElements.displayExpression.html.innerText;
-		this._resultDisplay = DOMElements.displayResult.html.innerText;
+		this._expressionDisplay = this.DOM.displayExpression.html.innerText;
+		this._resultDisplay = this.DOM.displayResult.html.innerText;
 
 		this.currentInput = '';
 		this.historyInputRaw = [];
@@ -28,8 +29,8 @@ class Calculator {
 		this.initial();
 	}
 	initial() {
-		DOMElements.calculatorBody.html.addEventListener('click', this);
-		DOMElements.calculatorBody.html.addEventListener('keydown', this);
+		this.DOM.calculatorBody.html.addEventListener('click', this);
+		this.DOM.calculatorBody.html.addEventListener('keydown', this);
 
 		this.historyInputFiltered = new Proxy(this._historyInputFiltered, {
 			get: (target, prop, receiver) => {
@@ -106,14 +107,14 @@ class Calculator {
 	}
 	set expressionDisplay(value) {
 		this._expressionDisplay = value;
-		DOMElements.displayExpression.html.innerText = value;
+		this.DOM.displayExpression.html.innerText = value;
 	}
 	get resultDisplay() {
 		return this._resultDisplay;
 	}
 	set resultDisplay(value) {
 		this._resultDisplay = value;
-		DOMElements.displayResult.html.innerText = value;
+		this.DOM.displayResult.html.innerText = value;
 	}
 
 	debagInfo(title) {
@@ -137,11 +138,11 @@ class Calculator {
 
 	onClick(event) {
 		let target = event.target;
-		if (target.classList.contains(DOMElements.keyboardButton.class)) {
+		if (target.classList.contains(this.DOM.keyboardButton.class)) {
 			this.currentInput = target.innerText;
 			this.handlerInput();
 		} // Клик по какой-либо кнопке клавиатуры калькулятора
-		else if (target.classList.contains(DOMElements.displayContainer.class)) {
+		else if (target.classList.contains(this.DOM.displayContainer.class)) {
 		} // Клик по дисплею
 	}
 
