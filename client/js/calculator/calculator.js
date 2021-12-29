@@ -268,7 +268,8 @@ class Calculator {
 				this.historyInputFiltered.unshift(lastOperand);
 			}
 		} else if (this.conditions.equalAfterOperator()) this.historyInputFiltered.unshift(this.resultDisplay);
-		if (this.currentInput === '=') this.fillingBrackets(true);
+		if (this.currentInput === '=') this.fillingBrackets();
+
 		const expression = this.expressionFormatting(this.historyInputFiltered);
 		this.result = this.calculateBracketExpression(expression);
 		this.debagInfo('result');
@@ -280,24 +281,26 @@ class Calculator {
 	}
 	inputOperand() {
 		if (this.conditions.isOperand()) {
-			if (this.conditions.afterEqual() || this.lastInput === ')') {
+			if (this.conditions.afterEqual() || this.conditions.afterCloseBrackets()) {
 				this.historyInputFiltered.length = 0;
 			}
 			if (this.conditions.fillingOperand()) {
-				let number = this.lastInput;
-
-				if (this.isDot(this.currentInput)) {
-					if (!this.isNumber(number)) {
-						this.historyInputFiltered.unshift('0' + this.currentInput);
-						return;
-					} else if (~this.lastInput.indexOf('.')) return;
-				}
-
-				this.lastInput = number + this.currentInput;
+				if (this.inputDot()) return;
+				this.lastInput = this.lastInput + this.currentInput;
 			} else this.historyInputFiltered.unshift(this.currentInput);
 			this.debagInfo('operand');
 		}
 	}
+	inputDot() {
+		if (this.isDot(this.currentInput)) {
+			if (!this.isNumber(this.lastInput)) {
+				this.historyInputFiltered.unshift('0' + this.currentInput);
+				return true;
+			} else if (~this.lastInput.indexOf('.')) return true;
+		}
+		return false;
+	}
+
 	inputOperator() {
 		if (this.conditions.isOperator()) {
 			console.log(this.historyInputFiltered.length);
