@@ -231,6 +231,7 @@ class Calculator {
 				this.historyInputFiltered.unshift(tmpLastInput);
 			}
 		else if (this.currentInput === ')') {
+			if (!this.isNumber(this.lastInput)) this.historyInputFiltered.unshift(this.resultDisplay);
 			const [openBrackets, closeBrackets] = this.getOpenCloseBrackets.call(this);
 			if (openBrackets.length > closeBrackets.length) this.historyInputFiltered.unshift(this.currentInput);
 		}
