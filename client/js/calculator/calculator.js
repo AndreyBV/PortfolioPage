@@ -305,6 +305,7 @@ class Calculator {
 				if (this.inputDot()) return;
 				this.lastInput = this.lastInput + this.currentInput;
 			} else this.historyInputFiltered.unshift(this.currentInput);
+			this.result = NaN;
 			this.debagInfo('operand');
 		}
 	}
