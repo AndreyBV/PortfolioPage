@@ -5,7 +5,7 @@
 //
 
 // Операторы, операнды и их порядок в grid
-const keyboardSymbols = {
+export const keyboardSymbols = {
 	operators: new Map([
 		['%', 5],
 		['C', 3],
