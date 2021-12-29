@@ -50,35 +50,37 @@ class Calculator {
 		this.conditions = {
 			atStart: () => this.historyInputFiltered.length === 0,
 
-			isOperand: () => this.isNumber(this.currentInput) || this.isDot(this.currentInput),
-			fillingOperand: () => this.isNumber(this.lastInput) || this.isDot(this.currentInput),
-			isOperator: () => !this.isNumber(this.currentInput) && !this.isDot(this.currentInput),
+			isDot: value => value === '.',
+			isOperand: () => this.isNumber(this.currentInput) || this.conditions.isDot(this.currentInput),
+			fillingOperand: () => this.isNumber(this.lastInput) || this.conditions.isDot(this.currentInput),
+			isOperator: () => !this.isNumber(this.currentInput) && !this.conditions.isDot(this.currentInput),
 
 			afterEqual: () => this.historyInputRaw[1] === '=' && !isNaN(this.result),
 			operatorAgain: () =>
-				!this.isDot(this.currentInput) &&
+				!this.conditions.isDot(this.currentInput) &&
 				!this.isNumber(this.currentInput) &&
 				!this.isNumber(this.lastInput) &&
-				!this.conditions.lastIsBracket() &&
+				!this.conditions.afterBracket() &&
 				this.historyInputFiltered.length !== 0,
 			operatorsChain: () =>
-				!this.isDot(this.currentInput) &&
+				!this.conditions.isDot(this.currentInput) &&
 				!this.isNumber(this.currentInput) &&
 				!this.isNumber(this.historyInputFiltered[1]) &&
 				this.historyInputFiltered[1] !== undefined &&
-				!this.conditions.isBrackets(),
+				!this.conditions.isContainsBrackets(),
 
 			equalAgain: () => this.historyInputRaw[1] === '=' && this.currentInput === '=',
 			equalAfterOperator: () => !this.isNumber(this.lastInput) && this.currentInput === '=',
 
 			operatorAfterOperand: () =>
-				(this.isNumber(this.lastInput) || this.conditions.lastIsBracket()) &&
+				(this.isNumber(this.lastInput) || this.conditions.afterBracket()) &&
 				!this.isNumber(this.currentInput),
 
-			isBrackets: () => ~this.historyInputFiltered.indexOf('('),
-			lastIsBracket: () => this.lastInput === ')' || this.lastInput === '(',
+			isContainsBrackets: () => ~this.historyInputFiltered.indexOf('('),
+			isBracket: value => value === '(' || value === ')',
 			afterOpenBracket: () => this.lastInput === '(',
 			afterCloseBrackets: () => this.lastInput === ')',
+			afterBracket: () => this.conditions.afterCloseBrackets() || this.conditions.afterOpenBracket(),
 		};
 		Object.defineProperty(this, 'conditions', {
 			writable: false,
@@ -259,7 +261,7 @@ class Calculator {
 		if (this.conditions.equalAgain()) {
 			const lastOperand = this.historyInputFiltered.find(item => this.isNumber(item));
 			const lastOperator = this.historyInputFiltered.find(
-				item => !this.isNumber(item) && !this.isBracket(item)
+				item => !this.isNumber(item) && !this.conditions.isBracket(item)
 			);
 			this.historyInputFiltered.length = 0;
 			if (lastOperator !== undefined) {
@@ -292,7 +294,7 @@ class Calculator {
 		}
 	}
 	inputDot() {
-		if (this.isDot(this.currentInput)) {
+		if (this.conditions.isDot(this.currentInput)) {
 			if (!this.isNumber(this.lastInput)) {
 				this.historyInputFiltered.unshift('0' + this.currentInput);
 				return true;
@@ -410,18 +412,10 @@ class Calculator {
 		}
 	}
 
-	isBracket(value) {
-		return value === ')' || value === '(';
-	}
 	isNumber(value) {
 		return !isNaN(parseFloat(value)) && !isNaN(value - 0);
 	}
-	isBracket(value) {
-		return value === ')' || value === '(';
-	}
-	isDot(value) {
-		return value === '.';
-	}
+
 	reversArray(array) {
 		return array.map(array.pop, [...array]);
 	}
