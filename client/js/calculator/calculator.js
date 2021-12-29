@@ -52,12 +52,15 @@ class Calculator {
 			fillingOperand: () => this.isNumber(this.lastInput) || this.isDot(this.currentInput),
 			isOperator: () => !this.isNumber(this.currentInput) && !this.isDot(this.currentInput),
 
+			atStart: () => this.historyInputFiltered.length === 0,
+
 			afterEqual: () => this.historyInputRaw[1] === '=' && !isNaN(this.result),
 			reOperator: () =>
 				!this.isDot(this.currentInput) &&
 				!this.isNumber(this.currentInput) &&
 				!this.isNumber(this.lastInput) &&
-				!this.conditions.isLastBracket(),
+				!this.conditions.isLastBracket() &&
+				this.historyInputFiltered.length !== 0,
 			chainOperators: () =>
 				!this.isDot(this.currentInput) &&
 				!this.isNumber(this.currentInput) &&
@@ -297,9 +300,15 @@ class Calculator {
 	}
 	inputOperator() {
 		if (this.conditions.isOperator()) {
+			console.log(this.historyInputFiltered.length);
 			if (this.conditions.afterEqual()) {
 				this.historyInputFiltered.length = 0;
 				this.historyInputFiltered.unshift(this.result);
+			}
+			if (this.conditions.atStart()) {
+				console.log(111111111);
+				this.historyInputFiltered.unshift(this.resultDisplay);
+				this.historyInputFiltered.unshift(this.currentInput);
 			}
 			if (this.conditions.afterOpenBracket()) {
 				this.historyInputFiltered.unshift(this.resultDisplay);
