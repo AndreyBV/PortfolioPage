@@ -194,7 +194,7 @@ a:hover {
 	margin: 0 -5px;
 }
 .display-scroll-wrapper > * {
-	margin: 0 5px;
+	padding: 0 5px;
 }
 .display-scroll-wrapper__buttons {
 	font-size: 1.5rem;
