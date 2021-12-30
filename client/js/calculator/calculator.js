@@ -120,8 +120,6 @@ class Calculator {
 		return this._resultDisplay;
 	}
 	set resultDisplay(value) {
-		console.log('reult disp');
-		console.log(value);
 		this._resultDisplay = value;
 		this.DOM.displayResult.html.innerText = value;
 	}
@@ -497,3 +495,20 @@ DOMElements.displayContainer.html.addEventListener('click', event => {
 		if (item !== null) item.scrollLeft += step;
 	}
 });
+
+const resizeItemsDisplayObserver = new ResizeObserver(entries => {
+	console.log(entries);
+	for (let item of entries) {
+		const wrapperItem = item.target.parentNode;
+		let marginLeft = parseInt(getComputedStyle(wrapperItem).marginLeft);
+		let marginRight = parseInt(getComputedStyle(wrapperItem).marginRight);
+		let widthItem = item.target.offsetWidth;
+		let widthContainer = wrapperItem.offsetWidth + marginLeft + marginRight;
+		if (widthItem > widthContainer) {
+			wrapperItem.scrollLeft = wrapperItem.scrollWidth - widthContainer;
+		}
+	}
+});
+
+resizeItemsDisplayObserver.observe(DOMElements.displayExpression.html);
+resizeItemsDisplayObserver.observe(DOMElements.displayResult.html);
