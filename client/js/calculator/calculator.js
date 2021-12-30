@@ -297,6 +297,7 @@ class Calculator {
 		if (this.currentInput === '=') this.fillingBrackets();
 		const expression = this.expressionFormatting(this.historyInputFiltered);
 		this.result = this.calculateBracketExpression(expression);
+		if (isNaN(this.result)) this.resultDisplay = 'Error';
 		this.debagInfo('result');
 	}
 
@@ -306,7 +307,11 @@ class Calculator {
 	}
 	inputOperand() {
 		if (this.conditions.isOperand()) {
-			if (this.conditions.afterEqual() || this.conditions.afterCloseBrackets()) {
+			if (
+				this.conditions.afterEqual() ||
+				this.conditions.afterCloseBrackets() ||
+				this.conditions.afterInfinity()
+			) {
 				this.historyInputFiltered.length = 0;
 			}
 			if (this.conditions.fillingOperand()) {
@@ -398,7 +403,7 @@ class Calculator {
 			let operatorsExpression = inputExpression.split(' ').filter((item, index) => index % 2 == 1);
 			operatorsExpression.map(item => {
 				if (operators.includes(item)) {
-					const regExpNumber = '([-+]?[0-9]+[.,]?([0-9]+(?:[eE][-+]?[0-9]+)?)?|Infinity)';
+					const regExpNumber = '([-+]?[0-9]+[.,]?([0-9]+(?:[eE][-+]?[0-9]+)?)?|Infinity|NaN)';
 					let patternExpression = `${regExpNumber} \\` + item + ` ${regExpNumber}`;
 					let innerExpression = inputExpression.match(patternExpression)[0];
 					let partsInnerExpression = innerExpression.trim().split(' ');
