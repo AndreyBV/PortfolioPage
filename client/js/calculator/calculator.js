@@ -484,17 +484,16 @@ DOMElements.displayContainer.html.addEventListener('click', event => {
 		'.display-calculator__expression-wrapper'
 	);
 	const wrapperResultDisplay = wrapperItemDisplay.querySelector('.display-calculator__result-wrapper');
+
+	const stepScroll = 100;
 	if (event.target.classList.contains('display-scroll-wrapper__left-button')) {
-		if (wrapperExpressionDisplay !== null) {
-			console.log('left exp');
-		} else if (wrapperResultDisplay !== null) {
-			console.log('left res');
-		}
+		scrollItem(wrapperExpressionDisplay, -stepScroll);
+		scrollItem(wrapperResultDisplay, -stepScroll);
 	} else if (event.target.classList.contains('display-scroll-wrapper__right-button')) {
-		if (wrapperExpressionDisplay !== null) {
-			console.log('right exp');
-		} else if (wrapperResultDisplay !== null) {
-			console.log('right res');
-		}
+		scrollItem(wrapperExpressionDisplay, stepScroll);
+		scrollItem(wrapperResultDisplay, stepScroll);
+	}
+	function scrollItem(item, step) {
+		if (item !== null) item.scrollLeft += step;
 	}
 });
