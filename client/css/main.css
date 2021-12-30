@@ -261,9 +261,7 @@ a:hover {
 
 .keyboard-calculator {
 	display: grid;
-
 	grid-template: repeat(6, 1fr) / repeat(4, 1fr);
-	/* grid-template-columns: repeat(4, 1fr); */
 	gap: 5px;
 }
 .keyboard-calculator > *:last-child:hover {
@@ -303,7 +301,6 @@ a:hover {
 	grid-column: 3 / 5;
 	border-radius: 0 0 60px;
 	padding: 15% 0;
-	/* padding-bottom: 50%; */
 }
 
 .calculator__history {
