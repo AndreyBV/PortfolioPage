@@ -166,7 +166,9 @@ class Calculator {
 				this.handlerInput();
 			}
 		} // Клик по какой-либо кнопке клавиатуры калькулятора
-		else if (target.classList.contains(this.DOM.displayContainer.class)) {
+		else if (target.classList.contains('display-calculator__history-button')) {
+			console.log(33333333);
+			this.DOM.historyContainer.html.classList.toggle('none');
 		} // Клик по дисплею
 	}
 
