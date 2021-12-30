@@ -361,7 +361,7 @@ class Calculator {
 			expressionDisplayValue = this.historyInputFiltered.slice(1);
 		else expressionDisplayValue = this.historyInputFiltered;
 		this.expressionDisplay = this.expressionFormatting(expressionDisplayValue);
-		if (this.currentInput === '=') this.expressionDisplay += ' =';
+		if (!this.conditions.atStart() && this.currentInput === '=') this.expressionDisplay += ' =';
 	}
 	updateResultDisplay() {
 		if (!isNaN(this.result) && (this.currentInput === '=' || !this.isNumber(this.lastInput))) {
