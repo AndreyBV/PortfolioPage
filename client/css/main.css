@@ -181,12 +181,50 @@ a:hover {
 	display: flex;
 	flex-direction: column;
 }
+.calculator__display > *:first-child {
+	padding-left: 10px;
+}
+.display-calculator__scroll-wrapper-expression {
+}
+.display-calculator__scroll-wrapper-result {
+}
+.display-scroll-wrapper {
+	display: flex;
+	align-items: stretch;
+	margin: 0 -5px;
+}
+.display-scroll-wrapper > * {
+	margin: 0 5px;
+}
+.display-scroll-wrapper__buttons {
+	font-size: 1.5rem;
+	color: #e2e5ec;
+
+	margin: auto 0;
+}
+.display-scroll-wrapper__left-button {
+}
+.display-scroll-wrapper__right-button {
+}
+.display-calculator__item-wrapper {
+	margin-left: auto;
+	overflow-x: auto;
+	overflow-y: hidden;
+}
+.display-calculator__item-wrapper::-webkit-scrollbar {
+	width: 0;
+	height: 0;
+}
+.display-calculator__expression-wrapper {
+}
 .display-calculator__expression {
-	color: #242933;
-	min-height: 25px;
 	display: inline-flex;
 	align-self: flex-end;
 	width: max-content;
+	color: #242933;
+	min-height: 25px;
+}
+.display-calculator__result-wrapper {
 }
 .display-calculator__result {
 	color: #e2e5ec;
