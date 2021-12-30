@@ -474,3 +474,27 @@ for (let calculatorElement in DOMElements) {
 }
 
 const calculator = new Calculator(DOMElements);
+
+const wrapperExpressionDisplay = DOMElements.displayExpression.html.parentNode;
+const wrapperResultDisplay = DOMElements.displayResult.html.parentNode;
+
+DOMElements.displayContainer.html.addEventListener('click', event => {
+	const wrapperItemDisplay = event.target.parentNode;
+	const wrapperExpressionDisplay = wrapperItemDisplay.querySelector(
+		'.display-calculator__expression-wrapper'
+	);
+	const wrapperResultDisplay = wrapperItemDisplay.querySelector('.display-calculator__result-wrapper');
+	if (event.target.classList.contains('display-scroll-wrapper__left-button')) {
+		if (wrapperExpressionDisplay !== null) {
+			console.log('left exp');
+		} else if (wrapperResultDisplay !== null) {
+			console.log('left res');
+		}
+	} else if (event.target.classList.contains('display-scroll-wrapper__right-button')) {
+		if (wrapperExpressionDisplay !== null) {
+			console.log('right exp');
+		} else if (wrapperResultDisplay !== null) {
+			console.log('right res');
+		}
+	}
+});
