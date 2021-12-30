@@ -167,7 +167,6 @@ a:hover {
 .calculator__body {
 	flex: 4;
 	position: relative;
-	max-width: 400px;
 }
 .calculator__display {
 	border-radius: 60px 10px 0 0;
@@ -199,8 +198,11 @@ a:hover {
 .display-scroll-wrapper__buttons {
 	font-size: 1.5rem;
 	color: #e2e5ec;
-
 	margin: auto 0;
+	transition: color 0.2s ease-in;
+}
+.display-scroll-wrapper__buttons:hover {
+	color: #ec4c56;
 }
 .display-scroll-wrapper__left-button {
 }
@@ -220,19 +222,16 @@ a:hover {
 .display-calculator__expression {
 	display: inline-flex;
 	align-self: flex-end;
-	width: max-content;
 	color: #242933;
-	min-height: 25px;
 }
 .display-calculator__result-wrapper {
 }
 .display-calculator__result {
 	color: #e2e5ec;
-	min-height: 38px;
+
 	font-size: 1.8em;
 	display: inline-flex;
 	align-self: flex-end;
-	width: max-content;
 }
 .calculator__content {
 	position: relative;
