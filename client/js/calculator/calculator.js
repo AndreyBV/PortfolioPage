@@ -156,6 +156,7 @@ class Calculator {
 	} // Ввод с клавиатуры
 
 	onClick(event) {
+		console.log(2);
 		let target = event.target;
 		if (target.classList.contains(this.DOM.keyboardButton.class)) {
 			if (
@@ -166,10 +167,51 @@ class Calculator {
 				this.handlerInput();
 			}
 		} // Клик по какой-либо кнопке клавиатуры калькулятора
-		else if (target.classList.contains('display-calculator__history-button')) {
-			console.log(33333333);
+		else if (target.classList.contains(this.DOM.historyShowButton.class)) {
 			this.DOM.historyContainer.html.classList.toggle('none');
+			this.DOM.historyItems.html.innerHTML = '';
+
+			const expressionItem = this.DOM.historyItemTemplate.html.content.querySelector(
+				'.' + this.DOM.historyItemExpression.class
+			);
+			const resultItem = this.DOM.historyItemTemplate.html.content.querySelector(
+				'.' + this.DOM.historyItemResult.class
+			);
+			for (let item of this.historyCalculation) {
+				expressionItem.innerText = item.expression;
+				resultItem.innerText = item.result;
+				const itemHistory = this.DOM.historyItemTemplate.html.content.cloneNode(true);
+				this.DOM.historyItems.html.appendChild(itemHistory);
+			}
+			// this.DOM.historyContainer.html.innerHTML = '';
 		} // Клик по дисплею
+		else if (target.classList.contains('history-calculator__item')) {
+			target = target.parentNode;
+			const expressionTarget = target.querySelector('.history-calculator__expression');
+			const itemsSolution = target.querySelector('.history-calculator__solution');
+			if (itemsSolution.hasChildNodes()) itemsSolution.innerHTML = '';
+			else {
+				for (let itemHistory of this.historyCalculation) {
+					if (itemHistory.expression.trim() != expressionTarget.innerText.trim()) continue;
+					else {
+						for (let itemSolution of itemHistory.solution) {
+							const expressionItem = this.DOM.historyItemTemplate.html.content.querySelector(
+								'.' + this.DOM.historyItemExpression.class
+							);
+							const resultItem = this.DOM.historyItemTemplate.html.content.querySelector(
+								'.' + this.DOM.historyItemResult.class
+							);
+							expressionItem.innerText = itemSolution.expression;
+							resultItem.innerText = itemSolution.result;
+							const itemSolutionClone = this.DOM.historyItemTemplate.html.content.cloneNode(true);
+							itemsSolution.appendChild(itemSolutionClone);
+						}
+					}
+				}
+			}
+		} else if (target.classList.contains('history-calculator__clear-button')) {
+			this.DOM.historyItems.html.innerHTML = '';
+		}
 	}
 
 	//
@@ -300,9 +342,15 @@ class Calculator {
 
 		if (this.result === 'Error') this.reset();
 		if (this.currentInput === '=') this.fillingBrackets();
+		this.solutionExpression = [];
 		const expression = this.expressionFormatting(this.historyInputFiltered);
 		this.result = this.calculateBracketExpression(expression);
 		if (isNaN(this.result)) this.result = 'Error';
+		this.historyCalculation.push({
+			expression: expression + ' =',
+			result: this.result,
+			solution: this.solutionExpression,
+		});
 
 		this.debagInfo('result');
 	}
@@ -471,8 +519,11 @@ const DOMElements = {
 	keyboardEqual: 'keyboard-calculator__button-equal',
 	keyboardLeftCorner: 'keyboard-calculator__button-left-corner',
 
+	historyShowButton: 'display-calculator__history-button',
 	historyContainer: 'history-calculator',
 	historyBody: 'history-calculator__body',
+	historyItems: 'history-calculator__items',
+	historyItemTemplate: 'history-calculator__template',
 	historyItem: 'history-calculator__item',
 	historyItemExpression: 'history-calculator__expression',
 	historyItemResult: 'history-calculator__result',

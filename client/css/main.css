@@ -228,19 +228,20 @@ a:hover {
 	border-radius: 60px 10px 0 0;
 	padding: 20px;
 }
-/* .calculator__display > *:not(:first-child) {
-	margin-top: 5px;
-} */
+.calculator__display > *:not(:last-child) {
+	margin-bottom: 5px;
+}
 .display-calculator {
 	position: relative;
 	background-color: #596172;
 	overflow: hidden;
 }
+
 .display-calculator__history-navigation {
 }
 .display-calculator__history-button-wrapper {
 	position: absolute;
-	top: 53%;
+	top: 58%;
 	left: 50%;
 	transform: translate(-50%);
 	padding-top: 3%;
