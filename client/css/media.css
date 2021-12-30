@@ -60,6 +60,10 @@
 	.display-calculator {
 		padding: 10px;
 	}
+	.display-calculator__history-button {
+		margin-bottom: -10px;
+	}
+
 	.display-calculator__expression {
 		font-size: 0.8rem;
 	}

@@ -239,44 +239,8 @@ a:hover {
 
 .display-calculator__history-navigation {
 }
-/* .display-calculator__history-button-wrapper {
-	position: absolute;
-	top: 58%;
-	left: 50%;
-	transform: translate(-50%);
-	padding-top: 3%;
-	background: #242933;
-	border-radius: 50%;
-	width: 40%;
-	height: 100px;
-}
-.display-calculator__history-button-wrapper::before {
-	content: '';
-	position: absolute;
-	top: -100%;
-	left: -125%;
-	width: 150%;
-	height: 150%;
-	background: transparent;
-	box-shadow: 6em 5.6em #242933;
-	border-radius: 50%;
-}
-.display-calculator__history-button-wrapper::after {
-	content: '';
-	position: absolute;
-	top: -100%;
-	right: -125%;
-	width: 150%;
-	height: 150%;
-	background: transparent;
-	box-shadow: -6em 5.6em #242933;
-	border-radius: 50%;
-} */
+
 .display-calculator__history-button {
-	/* position: absolute;
-	right: 2px;
-	top: 2px;
-	padding: 2px; */
 	display: flex;
 	justify-content: space-around;
 	margin-bottom: -20px;
