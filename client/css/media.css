@@ -7,8 +7,9 @@
 		margin: 15px 0;
 	}
 	.calculator__body {
-		align-self: stretch;
-		padding: 0 25%;
+		width: 50%;
+		margin-left: auto;
+		margin-right: auto;
 	}
 }
 
@@ -18,8 +19,7 @@
 	}
 	.calculator__body {
 		font-size: 0.8em;
-		align-self: stretch;
-		padding: 0 15%;
+		width: 80%;
 	}
 
 	.description-keyboard-simulator {
@@ -39,8 +39,8 @@
 @media (max-width: 420px) {
 	.calculator__body {
 		font-size: 1rem;
-		align-self: stretch;
-		padding: 0;
+		/* align-self: stretch; */
+		width: 100%;
 	}
 	.display-calculator {
 		padding: 10px;
