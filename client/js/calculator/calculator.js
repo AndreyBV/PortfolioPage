@@ -361,6 +361,7 @@ class Calculator {
 			expressionDisplayValue = this.historyInputFiltered.slice(1);
 		else expressionDisplayValue = this.historyInputFiltered;
 		this.expressionDisplay = this.expressionFormatting(expressionDisplayValue);
+		if (this.currentInput === '=') this.expressionDisplay += ' =';
 	}
 	updateResultDisplay() {
 		if (!isNaN(this.result) && (this.currentInput === '=' || !this.isNumber(this.lastInput))) {
@@ -401,13 +402,9 @@ class Calculator {
 				if (operators.includes(item)) {
 					const regExpNumber = '([-+]?[0-9]+[.,]?([0-9]+(?:[eE][-+]?[0-9]+)?)?|Infinity)';
 					let patternExpression = `${regExpNumber} \\` + item + ` ${regExpNumber}`;
-					console.log(inputExpression);
 					let innerExpression = inputExpression.match(patternExpression)[0];
-					console.log(innerExpression);
 					let partsInnerExpression = innerExpression.trim().split(' ');
-					console.log(partsInnerExpression);
 					let resultExpression = this.calculateSimpleExpression(...partsInnerExpression);
-
 					this.solutionExpression.push({
 						expression: innerExpression + ' =',
 						result: resultExpression,
