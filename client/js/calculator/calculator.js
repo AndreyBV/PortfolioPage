@@ -56,6 +56,7 @@ class Calculator {
 			isOperator: () => !this.isNumber(this.currentInput) && !this.conditions.isDot(this.currentInput),
 
 			afterInfinity: () => +this.result === Infinity,
+			afterError: () => this.result === 'Error',
 			afterEqual: () => this.historyInputRaw[1] === '=' && !isNaN(this.result),
 			operatorAgain: () =>
 				!this.conditions.isDot(this.currentInput) &&
@@ -215,7 +216,7 @@ class Calculator {
 	}
 
 	removeDigit() {
-		if (!this.conditions.afterInfinity()) {
+		if (!this.conditions.afterInfinity() && !this.conditions.afterError()) {
 			if (this.conditions.afterEqual()) {
 				this.historyInputFiltered.length = 0;
 				this.historyInputFiltered.unshift(this.result);
@@ -230,7 +231,7 @@ class Calculator {
 	}
 
 	invertSign() {
-		if (!this.conditions.afterInfinity()) {
+		if (!this.conditions.afterInfinity() && !this.conditions.afterError()) {
 			if (this.conditions.afterEqual()) {
 				this.historyInputFiltered.length = 0;
 				this.historyInputFiltered.unshift(String(this.result * -1));
@@ -240,8 +241,8 @@ class Calculator {
 	}
 
 	setBracket() {
-		if (this.conditions.afterEqual()) {
-			if (this.conditions.afterInfinity()) {
+		if (this.conditions.afterEqual() || this.conditions.afterError()) {
+			if (this.conditions.afterInfinity() || this.conditions.afterError()) {
 				this.result = NaN;
 				this.resultDisplay = '0';
 			}
@@ -287,17 +288,20 @@ class Calculator {
 				item => !this.isNumber(item) && !this.conditions.isBracket(item)
 			);
 			this.historyInputFiltered.length = 0;
+
 			if (lastOperator !== undefined) {
 				this.historyInputFiltered.unshift(this.result);
 				this.historyInputFiltered.unshift(lastOperator);
 				this.historyInputFiltered.unshift(lastOperand);
-			}
+			} else this.historyInputFiltered.unshift(this.resultDisplay);
 		} else if (this.conditions.equalAfterOperator()) this.historyInputFiltered.unshift(this.resultDisplay);
 
+		if (this.result === 'Error') this.reset();
 		if (this.currentInput === '=') this.fillingBrackets();
 		const expression = this.expressionFormatting(this.historyInputFiltered);
 		this.result = this.calculateBracketExpression(expression);
-		if (isNaN(this.result)) this.resultDisplay = 'Error';
+		if (isNaN(this.result)) this.result = 'Error';
+
 		this.debagInfo('result');
 	}
 
@@ -310,9 +314,11 @@ class Calculator {
 			if (
 				this.conditions.afterEqual() ||
 				this.conditions.afterCloseBrackets() ||
-				this.conditions.afterInfinity()
+				this.conditions.afterInfinity() ||
+				this.conditions.afterError()
 			) {
 				this.historyInputFiltered.length = 0;
+				this.result = NaN;
 			}
 			if (this.conditions.fillingOperand()) {
 				if (this.inputDot()) return;
@@ -374,6 +380,7 @@ class Calculator {
 		if (this.isNumber(this.lastInput)) this.resultDisplay = this.lastInput;
 		if (this.lastInput === undefined || (this.currentInput === '⌫' && !this.isNumber(this.lastInput)))
 			this.resultDisplay = '0';
+		if (this.conditions.afterError()) this.resultDisplay = this.result;
 	}
 
 	expressionFormatting(expressionArray) {
