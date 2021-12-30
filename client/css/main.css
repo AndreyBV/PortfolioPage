@@ -126,6 +126,7 @@ a:hover {
 	align-items: center;
 }
 .calculator__container {
+	overflow: hidden;
 }
 .calculator__wrapper {
 	display: flex;
@@ -167,6 +168,7 @@ a:hover {
 .calculator__body {
 	flex: 4;
 	position: relative;
+	overflow: hidden;
 }
 .calculator__display {
 	border-radius: 60px 10px 0 0;
@@ -177,8 +179,6 @@ a:hover {
 }
 .display-calculator {
 	background-color: #596172;
-	display: flex;
-	flex-direction: column;
 }
 .calculator__display > *:first-child {
 	padding-left: 10px;
@@ -189,7 +189,6 @@ a:hover {
 }
 .display-scroll-wrapper {
 	display: flex;
-	align-items: stretch;
 	margin: 0 -5px;
 }
 .display-scroll-wrapper > * {
@@ -222,16 +221,16 @@ a:hover {
 .display-calculator__expression {
 	display: inline-flex;
 	align-self: flex-end;
+	white-space: nowrap;
 	color: #242933;
 }
 .display-calculator__result-wrapper {
 }
 .display-calculator__result {
-	color: #e2e5ec;
-
-	font-size: 1.8em;
 	display: inline-flex;
 	align-self: flex-end;
+	color: #e2e5ec;
+	font-size: 1.8em;
 }
 .calculator__content {
 	position: relative;
