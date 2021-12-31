@@ -185,10 +185,10 @@ class Calculator {
 			}
 			// this.DOM.historyContainer.html.innerHTML = '';
 		} // Клик по дисплею
-		else if (target.classList.contains('history-calculator__item')) {
+		else if (target.classList.contains(this.DOM.historyItem.class)) {
 			target = target.parentNode;
-			const expressionTarget = target.querySelector('.history-calculator__expression');
-			const itemsSolution = target.querySelector('.history-calculator__solution');
+			const expressionTarget = target.querySelector('.' + this.DOM.historyItemExpression.class);
+			const itemsSolution = target.querySelector('.' + this.DOM.historyItemSolution.class);
 			if (itemsSolution.hasChildNodes()) itemsSolution.innerHTML = '';
 			else {
 				for (let itemHistory of this.historyCalculation) {
@@ -209,9 +209,10 @@ class Calculator {
 					}
 				}
 			}
-		} else if (target.classList.contains('history-calculator__clear-button')) {
+		} // клик по элементу истории вычисления
+		else if (target.classList.contains('history-calculator__clear-button')) {
 			this.DOM.historyItems.html.innerHTML = '';
-		}
+		} // клик по кнопке удаления истории вычисления
 	}
 
 	//
@@ -346,11 +347,12 @@ class Calculator {
 		const expression = this.expressionFormatting(this.historyInputFiltered);
 		this.result = this.calculateBracketExpression(expression);
 		if (isNaN(this.result)) this.result = 'Error';
-		this.historyCalculation.push({
-			expression: expression + ' =',
-			result: this.result,
-			solution: this.solutionExpression,
-		});
+		if (this.currentInput === '=')
+			this.historyCalculation.push({
+				expression: expression + ' =',
+				result: this.result,
+				solution: this.solutionExpression,
+			});
 
 		this.debagInfo('result');
 	}
@@ -473,6 +475,7 @@ class Calculator {
 				}
 			});
 		}
+		if (this.solutionExpression.length === 1) this.solutionExpression = [];
 		const result = String(+(+inputExpression).toFixed(3));
 		return result;
 	}
@@ -527,6 +530,7 @@ const DOMElements = {
 	historyItem: 'history-calculator__item',
 	historyItemExpression: 'history-calculator__expression',
 	historyItemResult: 'history-calculator__result',
+	historyItemSolution: 'history-calculator__solution',
 	historyClearButton: 'history-calculator__clear-button',
 };
 for (let calculatorElement in DOMElements) {
