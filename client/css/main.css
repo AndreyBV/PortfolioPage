@@ -158,6 +158,136 @@ a:hover {
           flex: 1 0 auto;
 }
 
+<<<<<<< HEAD
+=======
+.main__keyboard-simulator {
+}
+
+.title {
+}
+
+.text {
+}
+
+.info {
+}
+/*
+ * ─────────────────────────────────────────────────────── KEYBOARD-SIMULATOR ─────
+ */
+
+.keyboard-simulator {
+}
+.keyboard-simulator__container {
+}
+.keyboard-simulator__wrapper {
+}
+.keyboard-simulator__description {
+}
+.description-keyboard-simulator {
+}
+.description-keyboard-simulator__title {
+}
+.description-keyboard-simulator__title-text {
+}
+.description-keyboard-simulator__title-more-info {
+}
+.description-keyboard-simulator__text {
+}
+.keyboard-simulator__body {
+}
+.body-keyboard-simulator {
+}
+.body-keyboard-simulator__trainer {
+}
+.body-keyboard-simulator__live-stats {
+}
+.live-stat-ks {
+}
+.live-stat-ks__word-counter {
+}
+.live-stat-ks__input-word {
+}
+.live-stat-ks__delimiter {
+}
+.live-stat-ks__all-word {
+}
+.live-stat-ks__cpm {
+}
+.live-stat-ks__time {
+}
+.live-stat-ks__options-keyboard {
+}
+.options-keyboard-ks {
+}
+.options-keyboard-ks__lock-buttons {
+}
+.options-keyboard-ks__capslk {
+}
+.options-keyboard-ks__numlk {
+}
+.body-keyboard-simulator__text {
+}
+.body-keyboard-simulator__caret {
+}
+.body-keyboard-simulator__words {
+}
+.body-keyboard-simulator__next-text {
+}
+.body-keyboard-simulator__next-text-button {
+}
+.body-keyboard-simulator__statistic {
+}
+.statistic-keyboard-simulator {
+}
+.statistic-keyboard-simulator__chart {
+}
+.statistic-keyboard-simulator__cpm {
+}
+.cell-statistic {
+}
+.statistic-keyboard-simulator__cpm-title {
+}
+.title-chart {
+}
+.statistic-keyboard-simulator__cpm-value {
+}
+.value-chart {
+}
+.statistic-keyboard-simulator__accuracy {
+}
+.statistic-keyboard-simulator__accuracy-title {
+}
+.statistic-keyboard-simulator__accuracy-value {
+}
+.statistic-keyboard-simulator__characters {
+}
+.statistic-keyboard-simulator__characters-title {
+}
+.statistic-keyboard-simulator__characters-value {
+}
+.statistic-keyboard-simulator__time {
+}
+.statistic-keyboard-simulator__time-title {
+}
+.statistic-keyboard-simulator__time-value {
+}
+.statistic-keyboard-simulator__source {
+}
+.statistic-keyboard-simulator__source-title {
+}
+.statistic-keyboard-simulator__source-value {
+}
+.statistic-keyboard-simulator__reenter {
+}
+.statistic-keyboard-simulator__repeat-text {
+}
+.statistic-keyboard-simulator__next-text {
+}
+
+/*
+ * ─── FOOTER ─────────────────────────────────────────────────────────────────────
+ */
+>>>>>>> 9a92e6c (Сверстан каркас клавиатурного тренажера)
 .footer {
   -webkit-box-flex: 0;
       -ms-flex: 0 0 auto;
