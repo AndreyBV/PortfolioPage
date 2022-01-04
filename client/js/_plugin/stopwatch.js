@@ -84,10 +84,4 @@ class Stopwatch {
 	}
 }
 
-const tes = new Stopwatch();
-tes.start([
-	{ func: () => console.log('aaa'), numberDelays: 10 },
-	{ func: () => console.log('bbb'), numberDelays: 50 },
-]);
-
-// export default Stopwatch;
+export default Stopwatch;
