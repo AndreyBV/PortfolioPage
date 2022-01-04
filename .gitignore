@@ -1,4 +1,6 @@
 
+node_modules
+
 **/fonts/**/*.svg
 **/fonts/**/*.woff
 **/fonts/**/*.woff2
