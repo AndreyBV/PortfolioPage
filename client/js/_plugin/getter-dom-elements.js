@@ -2,8 +2,8 @@ export function getDOMElements(elementClasses) {
 	let elements = {};
 	for (let element in elementClasses) {
 		elements[element] = {
-			class: DOMElements[element],
-			element: document.querySelector('.' + DOMElements[element]),
+			class: elementClasses[element],
+			element: document.querySelector('.' + elementClasses[element]),
 		};
 	}
 	return elements;
