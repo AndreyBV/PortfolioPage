@@ -48,9 +48,10 @@ class Stopwatch {
 	}
 
 	getTime(type = 'normal') {
+		let date = new Date(this.milliseconds);
 		switch (type) {
 			case 'normal':
-				return new Date(this.milliseconds);
+				return date;
 			case 'milliseconds':
 				return date - this.timeStart;
 			case 'decompose':
