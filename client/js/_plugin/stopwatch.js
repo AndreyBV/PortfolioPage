@@ -11,18 +11,18 @@ class Stopwatch {
 		this.delay = updateFrequency;
 	}
 
-	start(arrayFuncs) {
+	start(...funcs) {
 		this.timeStart = this.getTime('normal');
 
-		this._brainStopwatch(arrayFuncs);
+		this._brainStopwatch(funcs);
 		this.timeout = setTimeout(() => {
-			this.start(arrayFuncs);
+			this.start(...funcs);
 		}, this.delay);
 
 		return this.timeStart;
 	}
-	_brainStopwatch(arrayFuncs) {
-		for (let funcObject of arrayFuncs) {
+	_brainStopwatch(funcs) {
+		for (let funcObject of funcs) {
 			if (typeof funcObject.func === 'function' && this._extraTimeout(funcObject.numberDelays))
 				funcObject.func(this.milliseconds, this.delay);
 		}
