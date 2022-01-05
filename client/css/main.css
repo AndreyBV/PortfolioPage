@@ -243,6 +243,23 @@ a:hover {
 	display: flex;
 	flex-wrap: wrap;
 }
+.body-keyboard-simulator__word {
+}
+.body-keyboard-simulator__word_error {
+	border-bottom: 2px solid #ec4c56;
+}
+.body-keyboard-simulator__symbol {
+}
+.body-keyboard-simulator__symbol_correct {
+	color: #f6f0e9;
+}
+.body-keyboard-simulator__symbol_incorrect {
+	color: #ec4c56;
+}
+.body-keyboard-simulator__symbol_extra {
+	color: #9b333a;
+}
+
 .body-keyboard-simulator__words > *:not(:last-child) {
 	margin: 0 0.35em 0 0;
 }
