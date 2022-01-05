@@ -317,17 +317,17 @@ a:hover {
 .body-keyboard-simulator__words > *:not(:last-child) {
 	margin: 0 0.35em 0 0;
 }
-.body-keyboard-simulator__next-text {
+.body-keyboard-simulator__reenter {
 	padding-top: 30px;
 	text-align: center;
 }
-.body-keyboard-simulator__next-text-button {
+.body-keyboard-simulator__next-text {
 	display: inline;
 	padding: 5px 25px;
 	border-radius: 5px;
 	transition: color 0.2s ease-in, color 0.2s ease-in;
 }
-.body-keyboard-simulator__next-text-button:hover {
+.body-keyboard-simulator__next-text:hover {
 	color: #ec4c56;
 }
 .body-keyboard-simulator__statistic {
