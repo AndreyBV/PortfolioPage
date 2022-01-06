@@ -14,9 +14,14 @@ class Stopwatch {
 	start(...funcs) {
 		this.timeStart = this.getTime('normal');
 
-		this._brainStopwatch(funcs);
+		const brainStopwatch = funcs => {
+			this._brainStopwatch(funcs);
+			this.timeout = setTimeout(() => {
+				brainStopwatch(funcs);
+			}, this.delay);
+		};
 		this.timeout = setTimeout(() => {
-			this.start(...funcs);
+			brainStopwatch(funcs);
 		}, this.delay);
 
 		return this.timeStart;
