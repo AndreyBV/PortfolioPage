@@ -250,27 +250,7 @@ a:hover {
 }
 .live-stat-ks__time {
 }
-.live-stat-ks__options-keyboard {
-}
-.options-keyboard-ks {
-	display: flex;
-}
-.options-keyboard > *:not(:last-child) {
-	padding-right: 5px;
-}
-.options-keyboard-ks__lock-buttons {
-	display: flex;
-	justify-self: end;
-	flex-direction: column;
-	justify-content: center;
-	text-align: right;
-	font-size: 0.4em;
-	line-height: 1em;
-}
-.options-keyboard-ks__capslk {
-}
-.options-keyboard-ks__numlk {
-}
+
 .body-keyboard-simulator__text {
 	position: relative;
 	line-height: 1.4em;
