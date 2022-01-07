@@ -9,23 +9,25 @@ class Stopwatch {
 		this.timeStop = null;
 		this.timeout = null;
 		this.delay = updateFrequency;
+		this.isRun = false;
+		this.isPause = false;
 	}
 
 	start(...funcs) {
-		this.timeStart = this.getTime('normal');
+		if (!this.isPause) {
+			this.timeStart = this.getTime('normal');
+			this.reset();
+		}
+		this.isRun = true;
 
-		const brainStopwatch = funcs => {
+		this._brainStopwatch(funcs); // во избежание задержек запуска секундомера
+		this.timeout = setInterval(() => {
 			this._brainStopwatch(funcs);
-			this.timeout = setTimeout(() => {
-				brainStopwatch(funcs);
-			}, this.delay);
-		};
-		this.timeout = setTimeout(() => {
-			brainStopwatch(funcs);
 		}, this.delay);
 
 		return this.timeStart;
 	}
+
 	_brainStopwatch(funcs) {
 		for (let funcObject of funcs) {
 			if (typeof funcObject.func === 'function' && this._extraTimeout(funcObject.numberDelays))
@@ -37,10 +39,14 @@ class Stopwatch {
 		if (this.milliseconds !== 0 && (this.milliseconds / this.delay / numberDelays) % 1 === 0) return true;
 		return false;
 	}
-
+	pause() {
+		clearInterval(this.timeout);
+		this.isPause = true;
+	}
 	stop() {
 		clearInterval(this.timeout);
 		this.timeStop = this.getTime('normal');
+		this.isRun = false;
 		return this.timeStop;
 	}
 
@@ -50,6 +56,8 @@ class Stopwatch {
 		this.timeStart = null;
 		this.timeStop = null;
 		this.timeout = null;
+		this.isPause = false;
+		this.isRun = false;
 	}
 
 	getTime(type = 'normal') {
