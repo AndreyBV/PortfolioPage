@@ -1,11 +1,13 @@
 import TextGenerator from './keyboard-text-generator.js';
+import KeyboardStatistic from './keyboard-statistics.js';
 import { getDOMElements } from '../_plugin/getter-dom-elements.js';
 import { rnd } from '../_plugin/tools.js';
 
 class KeyboardSimulator {
-	constructor(DOMElements, textGenerator = new TextGenerator()) {
+	constructor(DOMElements, textGenerator = new TextGenerator(), statistics = new KeyboardStatistic()) {
 		this.DOM = DOMElements;
 		this.textGenerator = textGenerator;
+		this.statistics = statistics;
 
 		this._currentWord = null;
 		this._previousWord = null;
@@ -108,6 +110,8 @@ class KeyboardSimulator {
 	initial() {
 		this.DOM.bodyKeyboardSimulator.element.addEventListener('click', this);
 		this.DOM.bodyKeyboardSimulator.element.addEventListener('keydown', this);
+		this.DOM.keyboardTrainerBlock.element.addEventListener('focus', this);
+		this.DOM.keyboardTrainerBlock.element.addEventListener('blur', this);
 
 		const generatedText = this.textGenerator.generate();
 		this.showText(generatedText);
@@ -141,9 +145,26 @@ class KeyboardSimulator {
 			this.updateText(generatedText);
 		} // повторный ввод текста
 	}
+	onFocus() {
+		console.log('FOCUS');
+		if (this.statistics.isRun()) {
+			this.statistics.onGetStatistic();
+			this.DOM.textBlock.element.classList.toggle(this.DOM.textBlurBlock.class);
+			this.DOM.blurMessageBlock.element.classList.toggle('none');
+		}
+	}
+	onBlur() {
+		console.log('BLUR');
+		if (this.statistics.isRun()) {
+			this.statistics.pauseGetStatistic();
+			this.DOM.textBlock.element.classList.toggle(this.DOM.textBlurBlock.class);
+			this.DOM.blurMessageBlock.element.classList.toggle('none');
+		}
+	}
 
 	updateText(dataText) {
 		this.reset();
+		this.statistics.reset();
 		this.showText(dataText);
 		this.initialCaretPosition();
 		this.DOM.keyboardTrainerBlock.element.focus();
@@ -186,15 +207,18 @@ class KeyboardSimulator {
 			if (this.currentSymbol != null && !this.checkTypeSymbol(this.currentSymbol, 'extra')) {
 				if (symbol.key == this.currentSymbol.innerText) {
 					this.setModifier(this.currentSymbol, this.DOM.symbolBlock.class, 'correct', 'toggle');
+					this.statistics.update(this.currentSymbol, 'correct', this.currentWord);
 					this.goNextSymbol();
 				} // корректные символы
 				else {
 					this.setModifier(this.currentSymbol, this.DOM.symbolBlock.class, 'incorrect', 'toggle');
+					this.statistics.update(this.currentSymbol, 'incorrect', this.currentWord, false);
 					this.goNextSymbol();
 				} // некорректные символы
 			} else if (this.isMaxExtraSymbols()) {
 				const extraSymbol = this.addSymbolInWord(this.currentWord, symbol.key, 'extra');
 				this.currentSymbol = extraSymbol;
+				this.statistics.update(this.currentSymbol, 'extra', this.currentWord, false);
 			} // лишние символы
 			this.playSoundClick();
 		}
@@ -203,6 +227,9 @@ class KeyboardSimulator {
 		if (this.previousWord == null && this.currentWord == null) {
 			this.currentWord = this.DOM.wordsBlock.element.querySelector('.' + this.DOM.wordBlock.class);
 			this.currentSymbol = this.currentWord.querySelector('.' + this.DOM.symbolBlock.class);
+
+			this.statistics.onGetStatistic();
+			this.statistics.showLiveCpm();
 		}
 	}
 	isValidSymbol(symbol) {
@@ -264,6 +291,7 @@ class KeyboardSimulator {
 	goPreviousSymbol() {
 		if (this.previousSymbol != null) {
 			if (this.currentSymbol != null && this.checkTypeSymbol(this.currentSymbol, 'extra')) {
+				this.statistics.update(this.currentSymbol, 'extra', this.currentWord, true);
 				this.currentSymbol = this.previousSymbol;
 				this.currentWord.removeChild(this.nextSymbol);
 				if (!this.checkTypeSymbol(this.currentSymbol, 'extra')) {
@@ -271,6 +299,12 @@ class KeyboardSimulator {
 				}
 			} else {
 				this.currentSymbol = this.previousSymbol;
+
+				if (this.checkTypeSymbol(this.currentSymbol, 'correct'))
+					this.statistics.update(this.currentSymbol, 'correct', this.currentWord, true);
+				else if (this.checkTypeSymbol(this.currentSymbol, 'incorrect'))
+					this.statistics.update(this.currentSymbol, 'incorrect', this.currentWord, true);
+
 				this.resetSymbolStyle();
 			}
 		}
@@ -283,6 +317,7 @@ class KeyboardSimulator {
 		let missedSymbols = this.getMissedSymbols(word);
 		for (let symbol of missedSymbols) {
 			this.setModifier(symbol, this.DOM.symbolBlock.class, 'missed');
+			this.statistics.update(symbol, 'missed', this.currentWord, false);
 		}
 		// Проверка на лишние символы
 		let extraSymbol = word.querySelector('.' + this.DOM.symbolBlock.class + '_extra');
@@ -357,21 +392,13 @@ class KeyboardSimulator {
 	}
 
 	hardBackspace() {
-		if (this.previousSymbol != null) {
-			while (this.previousSymbol != null) {
-				this.softBackspace();
-			}
-		} else if (this.previousWord != null) {
-			this.currentWord = this.previousWord;
-			this.currentSymbol = this.symbolsWord[this.symbolsWord.length - 1];
-			if (!this.checkTypeSymbol(this.currentSymbol, 'extra')) this.goNextSymbol();
-			while (this.previousSymbol != null) {
-				this.softBackspace();
-			}
-		}
+		if (this.previousSymbol === null && this.previousWord !== null) this.softBackspace();
+		while (this.previousSymbol !== null) this.softBackspace();
 	}
 	softBackspace() {
 		if (this.previousSymbol == null && this.previousWord != null) {
+			console.log('1111');
+			this.statistics.update('backspaceWord', 'backspaceWord', undefined);
 			this.goPreviousWord();
 			let missedSymbols = this.currentWord.querySelectorAll('.' + this.DOM.symbolBlock.class + '_missed');
 
@@ -382,11 +409,13 @@ class KeyboardSimulator {
 				this.currentSymbol = missedSymbols[0];
 
 				for (let symbol of missedSymbols) {
+					this.statistics.update(symbol, 'missed', this.currentWord, true);
 					this.setModifier(symbol, this.DOM.symbolBlock.class, 'missed', 'remove');
 				}
 			}
 			return;
 		} else if (this.previousSymbol != null) {
+			this.statistics.update('backspace', 'backspace', undefined);
 			this.goPreviousSymbol();
 		}
 	}
@@ -395,14 +424,21 @@ class KeyboardSimulator {
 		if (this.previousSymbol != null && this.nextWord != null) {
 			this.goNextWord();
 			this.currentSymbol = this.symbolsWord[0];
+			this.statistics.update('space', 'space', undefined);
 		} else if (this.currentWord != null && this.nextWord == null) {
+			this.statistics.update('space', 'space', undefined);
 			this.endEnter();
 		}
 	}
 
 	endEnter() {
+		this.statistics.offGetStatistic();
+
 		this.DOM.keyboardTrainerBlock.element.classList.toggle('none');
 		this.DOM.keyboardStatisticsBlock.element.classList.toggle('none');
+
+		this.statistics.showChart();
+		this.statistics.getStatistics();
 	}
 
 	initialCaretPosition() {
@@ -449,10 +485,13 @@ const elementClasses = {
 	bodyKeyboardSimulator: 'body-keyboard-simulator',
 	keyboardTrainerBlock: 'body-keyboard-simulator__trainer',
 	keyboardStatisticsBlock: 'statistic-keyboard-simulator',
+	textBlock: 'body-keyboard-simulator__text',
+	textBlurBlock: 'body-keyboard-simulator__text_blur',
 	caretBlock: 'body-keyboard-simulator__caret',
 	wordsBlock: 'body-keyboard-simulator__words',
 	wordBlock: 'body-keyboard-simulator__word',
 	symbolBlock: 'body-keyboard-simulator__symbol',
+	blurMessageBlock: 'body-keyboard-simulator__blur-message',
 
 	liveCounterWordBlock: 'live-stat-ks__input-word',
 	liveAllWord: 'live-stat-ks__all-word',
@@ -474,4 +513,5 @@ const elementClasses = {
 const DOMElements = getDOMElements(elementClasses);
 
 const textGenerator = new TextGenerator();
-let keyboardSimulator = new KeyboardSimulator(DOMElements, textGenerator);
+const statistics = new KeyboardStatistic(DOMElements, textGenerator);
+let keyboardSimulator = new KeyboardSimulator(DOMElements, textGenerator, statistics);
