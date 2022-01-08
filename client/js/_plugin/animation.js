@@ -80,15 +80,14 @@ export async function play(target = null, settings) {
 	return await anim.play(target, settings);
 }
 
-const lg = document.querySelector('.footer__logo');
-const res = play(lg, {
-	reversAnim: true,
-	reversTiming: true,
-	duration: 3000,
-	drawFunc: (progress, target) => {
-		target.style.color = `rgb(${progress * 255},0,0)`;
-	},
-	timingFunc: timeFraction => timeFraction,
-});
-res.then(resolve => console.log('Animation play completed'));
-// res.then(console.log('complete'));
+// const lg = document.querySelector('.footer__logo');
+// const res = play(lg, {
+// 	reversAnim: true,
+// 	reversTiming: true,
+// 	duration: 3000,
+// 	drawFunc: (progress, target) => {
+// 		target.style.color = `rgb(${progress * 255},0,0)`;
+// 	},
+// 	timingFunc: timeFraction => timeFraction,
+// });
+// res.then(resolve => console.log('Animation play completed'));
