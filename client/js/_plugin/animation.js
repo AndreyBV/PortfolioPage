@@ -18,7 +18,7 @@ class Animation {
 	get currentAnimation() {
 		return this._currentAnimation;
 	}
-	play(target = null, { beforeStartFunc = () => {}, afterEndFunc = () => {} }) {
+	play(target = null, { reversAnim = false, beforeStartFunc = () => {}, afterEndFunc = () => {} }) {
 		if (this.currentAnimation !== null) {
 			this.destroy();
 		}
@@ -28,12 +28,15 @@ class Animation {
 		this.currentAnimation = requestAnimationFrame(
 			function play(time) {
 				let timeFraction = (time - start) / this.duration;
+				if (reversAnim) timeFraction = 1 - timeFraction;
+
 				if (timeFraction > 1) timeFraction = 1;
+				if (timeFraction < 0) timeFraction = 0;
 
 				let progress = this.timingFunc(timeFraction);
 				this.drawFunc(progress, target);
 
-				if (timeFraction < 1) {
+				if ((timeFraction < 1 && !reversAnim) || (timeFraction > 0 && reversAnim)) {
 					requestAnimationFrame(play.bind(this));
 				} else {
 					if (typeof afterEndFunc === 'function') afterEndFunc();
@@ -56,4 +59,4 @@ export function play(target = null, settings) {
 }
 
 const lg = document.querySelector('.footer__logo');
-play(lg, {});
+play(lg, { reversAnim: false });
