@@ -18,7 +18,10 @@ class Animation {
 	get currentAnimation() {
 		return this._currentAnimation;
 	}
-	play(target = null, { reversAnim = false, beforeStartFunc = () => {}, afterEndFunc = () => {} }) {
+	play(
+		target = null,
+		{ reversAnim = false, reversTiming = false, beforeStartFunc = () => {}, afterEndFunc = () => {} }
+	) {
 		if (this.currentAnimation !== null) {
 			this.destroy();
 		}
@@ -33,7 +36,7 @@ class Animation {
 				if (timeFraction > 1) timeFraction = 1;
 				if (timeFraction < 0) timeFraction = 0;
 
-				let progress = this.timingFunc(timeFraction);
+				let progress = reversTiming ? timingFuncRevers.call(this) : this.timingFunc(timeFraction);
 				this.drawFunc(progress, target);
 
 				if ((timeFraction < 1 && !reversAnim) || (timeFraction > 0 && reversAnim)) {
@@ -41,6 +44,10 @@ class Animation {
 				} else {
 					if (typeof afterEndFunc === 'function') afterEndFunc();
 					this.destroy();
+				}
+
+				function timingFuncRevers() {
+					return 1 - this.timingFunc(1 - timeFraction);
 				}
 			}.bind(this)
 		);
@@ -59,4 +66,4 @@ export function play(target = null, settings) {
 }
 
 const lg = document.querySelector('.footer__logo');
-play(lg, { reversAnim: false });
+play(lg, { reversAnim: false, reversTiming: true });
