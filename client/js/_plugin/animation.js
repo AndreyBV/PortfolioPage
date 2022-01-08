@@ -18,7 +18,7 @@ class Animation {
 	get currentAnimation() {
 		return this._currentAnimation;
 	}
-	play(
+	async play(
 		target = null,
 		{
 			reversAnim = false,
@@ -38,31 +38,34 @@ class Animation {
 			this.destroy();
 		}
 		if (typeof beforeStartFunc === 'function') beforeStartFunc();
-
 		const start = performance.now();
-		this.currentAnimation = requestAnimationFrame(
-			function play(time) {
-				let timeFraction = (time - start) / _duration;
-				if (reversAnim) timeFraction = 1 - timeFraction;
+		let isCompleted = new Promise((resolve, reject) => {
+			this.currentAnimation = requestAnimationFrame(
+				function play(time) {
+					let timeFraction = (time - start) / _duration;
+					if (reversAnim) timeFraction = 1 - timeFraction;
 
-				if (timeFraction > 1) timeFraction = 1;
-				if (timeFraction < 0) timeFraction = 0;
+					if (timeFraction > 1) timeFraction = 1;
+					if (timeFraction < 0) timeFraction = 0;
 
-				let progress = reversTiming ? timingFuncRevers.call(this) : _timingFunc(timeFraction);
-				_drawFunc(progress, target);
+					let progress = reversTiming ? timingFuncRevers.call(this) : _timingFunc(timeFraction);
+					_drawFunc(progress, target);
 
-				if ((timeFraction < 1 && !reversAnim) || (timeFraction > 0 && reversAnim)) {
-					requestAnimationFrame(play.bind(this));
-				} else {
-					if (typeof afterEndFunc === 'function') afterEndFunc();
-					this.destroy();
-				}
+					if ((timeFraction < 1 && !reversAnim) || (timeFraction > 0 && reversAnim)) {
+						requestAnimationFrame(play.bind(this));
+					} else {
+						if (typeof afterEndFunc === 'function') afterEndFunc();
+						this.destroy();
+						resolve(true);
+					}
 
-				function timingFuncRevers() {
-					return 1 - _timingFunc(1 - timeFraction);
-				}
-			}.bind(this)
-		);
+					function timingFuncRevers() {
+						return 1 - _timingFunc(1 - timeFraction);
+					}
+				}.bind(this)
+			);
+		});
+		return await isCompleted;
 	}
 	destroy() {
 		cancelAnimationFrame(this.currentAnimation);
@@ -72,13 +75,13 @@ class Animation {
 
 export default Animation;
 
-export function play(target = null, settings) {
+export async function play(target = null, settings) {
 	const anim = new Animation({});
-	anim.play(target, settings);
+	return await anim.play(target, settings);
 }
 
 const lg = document.querySelector('.footer__logo');
-play(lg, {
+const res = play(lg, {
 	reversAnim: true,
 	reversTiming: true,
 	duration: 3000,
@@ -87,3 +90,5 @@ play(lg, {
 	},
 	timingFunc: timeFraction => timeFraction,
 });
+res.then(resolve => console.log('Animation play completed'));
+// res.then(console.log('complete'));
