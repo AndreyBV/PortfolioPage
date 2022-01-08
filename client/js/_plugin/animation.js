@@ -20,8 +20,20 @@ class Animation {
 	}
 	play(
 		target = null,
-		{ reversAnim = false, reversTiming = false, beforeStartFunc = () => {}, afterEndFunc = () => {} }
+		{
+			reversAnim = false,
+			reversTiming = false,
+			beforeStartFunc = () => {},
+			afterEndFunc = () => {},
+			duration = undefined,
+			drawFunc = undefined,
+			timingFunc = undefined,
+		}
 	) {
+		const _duration = duration !== undefined ? duration : this.duration;
+		const _drawFunc = drawFunc !== undefined ? drawFunc : this.drawFunc;
+		const _timingFunc = timingFunc !== undefined ? timingFunc : this.timingFunc;
+
 		if (this.currentAnimation !== null) {
 			this.destroy();
 		}
@@ -30,14 +42,14 @@ class Animation {
 		const start = performance.now();
 		this.currentAnimation = requestAnimationFrame(
 			function play(time) {
-				let timeFraction = (time - start) / this.duration;
+				let timeFraction = (time - start) / _duration;
 				if (reversAnim) timeFraction = 1 - timeFraction;
 
 				if (timeFraction > 1) timeFraction = 1;
 				if (timeFraction < 0) timeFraction = 0;
 
-				let progress = reversTiming ? timingFuncRevers.call(this) : this.timingFunc(timeFraction);
-				this.drawFunc(progress, target);
+				let progress = reversTiming ? timingFuncRevers.call(this) : _timingFunc(timeFraction);
+				_drawFunc(progress, target);
 
 				if ((timeFraction < 1 && !reversAnim) || (timeFraction > 0 && reversAnim)) {
 					requestAnimationFrame(play.bind(this));
@@ -47,7 +59,7 @@ class Animation {
 				}
 
 				function timingFuncRevers() {
-					return 1 - this.timingFunc(1 - timeFraction);
+					return 1 - _timingFunc(1 - timeFraction);
 				}
 			}.bind(this)
 		);
@@ -66,4 +78,12 @@ export function play(target = null, settings) {
 }
 
 const lg = document.querySelector('.footer__logo');
-play(lg, { reversAnim: false, reversTiming: true });
+play(lg, {
+	reversAnim: true,
+	reversTiming: true,
+	duration: 3000,
+	drawFunc: (progress, target) => {
+		target.style.color = `rgb(${progress * 255},0,0)`;
+	},
+	timingFunc: timeFraction => timeFraction,
+});
