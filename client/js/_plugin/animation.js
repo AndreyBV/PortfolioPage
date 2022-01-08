@@ -1,16 +1,17 @@
 class Animation {
-	constructor({
-		duration = 2000,
-		drawFunc = (progress, target) => {
+	constructor(settings) {
+		this.duration = 2000;
+		this.drawFunc = (progress, target) => {
 			target.style.width = progress * 100 + '%';
-		},
-		timingFunc = timeFraction => 1 - Math.sin(Math.acos(timeFraction)),
-		_currentAnimation = null,
-	}) {
-		this.duration = duration;
-		this.drawFunc = drawFunc;
-		this.timingFunc = timingFunc;
-		this._currentAnimation = _currentAnimation;
+		};
+		this.timingFunc = timeFraction => 1 - Math.sin(Math.acos(timeFraction));
+
+		if (typeof settings !== 'undefined')
+			for (let param in settings) {
+				if (param in this) this[param] = settings[param];
+			}
+
+		this._currentAnimation = undefined;
 	}
 	set currentAnimation(value) {
 		this._currentAnimation = value;
@@ -18,9 +19,8 @@ class Animation {
 	get currentAnimation() {
 		return this._currentAnimation;
 	}
-	async play(
-		target = null,
-		{
+	async play(target, settings) {
+		const {
 			reversAnim = false,
 			reversTiming = false,
 			beforeStartFunc = () => {},
@@ -28,8 +28,8 @@ class Animation {
 			duration = undefined,
 			drawFunc = undefined,
 			timingFunc = undefined,
-		}
-	) {
+		} = typeof settings === 'undefined' ? {} : settings;
+
 		const _duration = duration !== undefined ? duration : this.duration;
 		const _drawFunc = drawFunc !== undefined ? drawFunc : this.drawFunc;
 		const _timingFunc = timingFunc !== undefined ? timingFunc : this.timingFunc;
@@ -76,18 +76,10 @@ class Animation {
 export default Animation;
 
 export async function play(target = null, settings) {
-	const anim = new Animation({});
+	const anim = new Animation();
 	return await anim.play(target, settings);
 }
 
 // const lg = document.querySelector('.footer__logo');
-// const res = play(lg, {
-// 	reversAnim: true,
-// 	reversTiming: true,
-// 	duration: 3000,
-// 	drawFunc: (progress, target) => {
-// 		target.style.color = `rgb(${progress * 255},0,0)`;
-// 	},
-// 	timingFunc: timeFraction => timeFraction,
-// });
+// const res = play(lg);
 // res.then(resolve => console.log('Animation play completed'));
