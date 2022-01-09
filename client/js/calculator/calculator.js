@@ -210,7 +210,6 @@ class Calculator {
 		} // Клик по дисплею
 		else if (target.closest('.' + this.DOM.historyItem.class)) {
 			target = target.closest('.' + this.DOM.historyItem.class).parentNode;
-			console.log(target);
 			const expressionTarget = target.querySelector('.' + this.DOM.historyItemExpression.class);
 			const itemsSolution = target.querySelector('.' + this.DOM.historyItemSolution.class);
 
@@ -220,7 +219,6 @@ class Calculator {
 					reversAnim: true,
 					reversTiming: true,
 					drawFunc: (progress, target) => {
-						console.log(progress);
 						target.style.height = progress * itemsSolution.offsetHeight + 'px';
 					},
 				}).then(() => {
@@ -261,6 +259,8 @@ class Calculator {
 		} // клик по элементу истории вычисления
 		else if (target.classList.contains('history-calculator__clear-button')) {
 			this.DOM.historyItems.html.innerHTML = '';
+			this.historyCalculation = [];
+			this.solutionExpression = [];
 		} // клик по кнопке удаления истории вычисления
 	}
 
