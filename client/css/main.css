@@ -415,6 +415,7 @@ a:hover {
 	font-size: 0.7rem;
 	background: linear-gradient(0deg, rgba(255, 255, 255, 0) 92%, rgba(0, 0, 0, 0.4) 100%),
 		linear-gradient(180deg, rgb(225, 227, 233) 92%, rgba(0, 0, 0, 0.4) 100%);
+	overflow: hidden;
 }
 .history-calculator__clear-button {
 	display: flex;

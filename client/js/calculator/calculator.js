@@ -1,5 +1,6 @@
 import { calculatorBuild, keyboardSymbols } from './calculator-build.js';
 import { scrollDisplay } from './calculator-scroll-display.js';
+import { play as animPlay } from '../_plugin/animation.js';
 //
 // ─── CALCULATOR ─────────────────────────────────────────────────────────────────
 //
@@ -156,7 +157,6 @@ class Calculator {
 	} // Ввод с клавиатуры
 
 	onClick(event) {
-		console.log(2);
 		let target = event.target;
 		if (target.classList.contains(this.DOM.keyboardButton.class)) {
 			if (
@@ -168,29 +168,62 @@ class Calculator {
 			}
 		} // Клик по какой-либо кнопке клавиатуры калькулятора
 		else if (target.classList.contains(this.DOM.historyShowButton.class)) {
-			this.DOM.historyContainer.html.classList.toggle('none');
-			this.DOM.historyItems.html.innerHTML = '';
+			if (this.DOM.historyContainer.html.classList.contains('none')) {
+				animPlay(this.DOM.historyContainer.html, {
+					duration: 600,
+					drawFunc: (progress, target) => {
+						target.style.height = progress * 100 + '%';
+					},
+				});
 
-			const expressionItem = this.DOM.historyItemTemplate.html.content.querySelector(
-				'.' + this.DOM.historyItemExpression.class
-			);
-			const resultItem = this.DOM.historyItemTemplate.html.content.querySelector(
-				'.' + this.DOM.historyItemResult.class
-			);
-			for (let item of this.historyCalculation) {
-				expressionItem.innerText = item.expression;
-				resultItem.innerText = item.result;
-				const itemHistory = this.DOM.historyItemTemplate.html.content.cloneNode(true);
-				this.DOM.historyItems.html.appendChild(itemHistory);
+				this.DOM.historyContainer.html.classList.toggle('none');
+				this.DOM.historyItems.html.innerHTML = '';
+
+				const expressionItem = this.DOM.historyItemTemplate.html.content.querySelector(
+					'.' + this.DOM.historyItemExpression.class
+				);
+				const resultItem = this.DOM.historyItemTemplate.html.content.querySelector(
+					'.' + this.DOM.historyItemResult.class
+				);
+				for (let item of this.historyCalculation) {
+					expressionItem.innerText = item.expression;
+					resultItem.innerText = item.result;
+					const itemHistory = this.DOM.historyItemTemplate.html.content.cloneNode(true);
+					this.DOM.historyItems.html.appendChild(itemHistory);
+				}
+			} else {
+				animPlay(this.DOM.historyContainer.html, {
+					duration: 600,
+					reversAnim: true,
+					drawFunc: (progress, target) => {
+						target.style.height = progress * 100 + '%';
+					},
+				}).then(() => this.DOM.historyContainer.html.classList.toggle('none'));
 			}
+
 			// this.DOM.historyContainer.html.innerHTML = '';
 		} // Клик по дисплею
 		else if (target.classList.contains(this.DOM.historyItem.class)) {
 			target = target.parentNode;
 			const expressionTarget = target.querySelector('.' + this.DOM.historyItemExpression.class);
 			const itemsSolution = target.querySelector('.' + this.DOM.historyItemSolution.class);
-			if (itemsSolution.hasChildNodes()) itemsSolution.innerHTML = '';
-			else {
+
+			if (itemsSolution.hasChildNodes()) {
+				animPlay(itemsSolution, {
+					duration: 600,
+					reversAnim: true,
+					reversTiming: true,
+					drawFunc: (progress, target) => {
+						console.log(progress);
+						target.style.height = progress * itemsSolution.offsetHeight + 'px';
+					},
+				}).then(() => {
+					itemsSolution.innerHTML = '';
+				});
+			} else {
+				let heightSolutionBlock = 0;
+				itemsSolution.style.height = 'auto';
+
 				for (let itemHistory of this.historyCalculation) {
 					if (itemHistory.expression.trim() != expressionTarget.innerText.trim()) continue;
 					else {
@@ -205,9 +238,19 @@ class Calculator {
 							resultItem.innerText = itemSolution.result;
 							const itemSolutionClone = this.DOM.historyItemTemplate.html.content.cloneNode(true);
 							itemsSolution.appendChild(itemSolutionClone);
+							heightSolutionBlock = itemsSolution.offsetHeight;
 						}
 					}
 				}
+
+				itemsSolution.style.height = '0px';
+				animPlay(itemsSolution, {
+					duration: 600,
+					reversTiming: true,
+					drawFunc: (progress, target) => {
+						target.style.height = progress * heightSolutionBlock + 'px';
+					},
+				});
 			}
 		} // клик по элементу истории вычисления
 		else if (target.classList.contains('history-calculator__clear-button')) {
