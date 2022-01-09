@@ -208,8 +208,9 @@ class Calculator {
 
 			// this.DOM.historyContainer.html.innerHTML = '';
 		} // Клик по дисплею
-		else if (target.classList.contains(this.DOM.historyItem.class)) {
-			target = target.parentNode;
+		else if (target.closest('.' + this.DOM.historyItem.class)) {
+			target = target.closest('.' + this.DOM.historyItem.class).parentNode;
+			console.log(target);
 			const expressionTarget = target.querySelector('.' + this.DOM.historyItemExpression.class);
 			const itemsSolution = target.querySelector('.' + this.DOM.historyItemSolution.class);
 
