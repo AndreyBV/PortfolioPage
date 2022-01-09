@@ -179,6 +179,9 @@ class Calculator {
 				this.DOM.historyContainer.html.classList.toggle('none');
 				this.DOM.historyItems.html.innerHTML = '';
 
+				const historyItem = this.DOM.historyItemTemplate.html.content.querySelector(
+					'.' + this.DOM.historyItem.class
+				);
 				const expressionItem = this.DOM.historyItemTemplate.html.content.querySelector(
 					'.' + this.DOM.historyItemExpression.class
 				);
@@ -186,6 +189,8 @@ class Calculator {
 					'.' + this.DOM.historyItemResult.class
 				);
 				for (let item of this.historyCalculation) {
+					if (item.solution.length) historyItem.classList.add(this.DOM.historyItemLong.class);
+					else historyItem.classList.remove(this.DOM.historyItemLong.class);
 					expressionItem.innerText = item.expression;
 					resultItem.innerText = item.result;
 					const itemHistory = this.DOM.historyItemTemplate.html.content.cloneNode(true);
@@ -570,6 +575,8 @@ const DOMElements = {
 	historyBody: 'history-calculator__body',
 	historyItems: 'history-calculator__items',
 	historyItemTemplate: 'history-calculator__template',
+	historyItemWrapper: 'history-calculator__item-wrapper',
+	historyItemLong: 'history-calculator__item_long',
 	historyItem: 'history-calculator__item',
 	historyItemExpression: 'history-calculator__expression',
 	historyItemResult: 'history-calculator__result',

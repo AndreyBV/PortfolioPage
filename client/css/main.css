@@ -399,6 +399,12 @@ a:hover {
 	padding: 15px;
 	text-align: right;
 }
+.history-calculator__item_long {
+	transition: transform 0.2s ease-in;
+}
+.history-calculator__item_long:hover {
+	transform: translateX(-10px);
+}
 .history-calculator__item > *:not(:first-child) {
 	padding-top: 5px;
 }
