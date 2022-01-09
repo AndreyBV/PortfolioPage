@@ -273,7 +273,7 @@ class Calculator {
 		this.historyInputRaw.splice(this.limitRawHistory, this.historyInputRaw.length - 1);
 		switch (this.currentInput) {
 			case 'C':
-				this.reset();
+				this.reset(true);
 				break;
 			case '⌫':
 				this.removeDigit();
@@ -294,7 +294,7 @@ class Calculator {
 		}
 	}
 
-	reset() {
+	reset(isSoft = false) {
 		this.expressionDisplay = '';
 		this.resultDisplay = '0';
 
@@ -305,6 +305,7 @@ class Calculator {
 		this.historyInputFiltered.length = 0;
 		this.result = NaN;
 
+		if (isSoft) return;
 		this.solutionExpression = [];
 		this.historyCalculation = [];
 	}
