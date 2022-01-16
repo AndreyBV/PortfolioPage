@@ -346,8 +346,8 @@ a:hover {
 }
 .keyboard-calculator {
 	display: grid;
-	grid-row: repeat(6, 1fr);
-	grid-column: repeat(4, 1fr);
+	grid-template-rows: repeat(6, 1fr);
+	grid-template-columns: repeat(4, 1fr);
 	// grid-template: repeat(6, 1fr) / repeat(4, 1fr);
 	gap: 5px;
 

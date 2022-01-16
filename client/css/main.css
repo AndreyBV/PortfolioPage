@@ -429,8 +429,10 @@ a:hover {
 .keyboard-calculator {
   display: -ms-grid;
   display: grid;
-  grid-row: repeat(6, 1fr);
-  grid-column: repeat(4, 1fr);
+  -ms-grid-rows: (1fr)[6];
+      grid-template-rows: repeat(6, 1fr);
+  -ms-grid-columns: (1fr)[4];
+      grid-template-columns: repeat(4, 1fr);
   gap: 5px;
 }
 
