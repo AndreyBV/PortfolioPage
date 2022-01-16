@@ -237,13 +237,13 @@ a:hover {
 .title {
 	font-size: 1.6rem;
 	font-weight: 500;
-	color: #ec4c56;
+	color: $color_text_additional;
 }
 .info {
-	color: #596172;
+	color: $color_text;
 	transition: color 0.2s ease-in;
 	&:hover {
-		color: #ec4c56;
+		color: $color_text_additional;
 	}
 }
 .text {
@@ -251,7 +251,7 @@ a:hover {
 }
 .display-calculator {
 	position: relative;
-	background-color: #596172;
+	background-color: $color_text;
 	overflow: hidden;
 
 	&__scroll-wrapper-expression {
@@ -274,7 +274,7 @@ a:hover {
 		display: inline-flex;
 		align-self: flex-end;
 		white-space: nowrap;
-		color: #242933;
+		color: $color_background;
 	}
 
 	&__scroll-wrapper-result {
@@ -298,7 +298,7 @@ a:hover {
 		justify-content: space-around;
 		margin-bottom: -20px;
 		padding: 2px 0 5px;
-		color: #242933;
+		color: $color_background;
 		transition: color 0.2s ease-in;
 		font-size: 1rem;
 		&:hover {
@@ -331,7 +331,7 @@ a:hover {
 		margin: auto 0;
 		transition: color 0.2s ease-in;
 		&:hover {
-			color: #ec4c56;
+			color: $color_text_additional;
 		}
 		@media (max-width: 420px) {
 			font-size: 0.8rem;
@@ -354,7 +354,7 @@ a:hover {
 	> * {
 		&:last-child {
 			&:hover {
-				background-color: #ec4c56;
+				background-color: $color_text_additional;
 			}
 		}
 	}
@@ -370,28 +370,28 @@ a:hover {
 		user-select: none;
 		background-color: #e2e5ec;
 
-		color: #242933;
+		color: $color_background;
 		transition: all 0.2s ease-in;
 		&:hover {
-			background-color: #ec4c56;
+			background-color: $color_text_additional;
 			color: #e2e5ec;
 		}
 	}
 
 	&__button-operator {
 		color: #e2e5ec;
-		background-color: #596172;
+		background-color: $color_text;
 	}
 	&__button-operand {
 	}
 	&__button-left-corner {
-		color: #242933;
+		color: $color_background;
 		background-color: #e2e5ec;
 		border-radius: 0 0 0 10px;
 	}
 	&__button-equal {
-		background-color: #ec4c56;
-		color: #242933;
+		background-color: $color_text_additional;
+		color: $color_background;
 		grid-column: 3 / 5;
 		border-radius: 0 0 60px;
 		padding: 15% 0;
@@ -418,7 +418,7 @@ a:hover {
 			width: 10px;
 		}
 		&::-webkit-scrollbar-thumb {
-			background-color: #ec4c56;
+			background-color: $color_text_additional;
 		}
 		&::-webkit-scrollbar-track {
 			background-color: transparent;
@@ -451,7 +451,7 @@ a:hover {
 	}
 
 	&__expression {
-		color: #242933;
+		color: $color_background;
 		align-self: flex-end;
 		@media (max-width: 420px) {
 			font-size: 0.8rem;
@@ -459,7 +459,7 @@ a:hover {
 	}
 
 	&__result {
-		color: #ec4c56;
+		color: $color_text_additional;
 		font-size: 1.5rem;
 		align-self: flex-end;
 		@media (max-width: 420px) {
@@ -480,8 +480,8 @@ a:hover {
 		align-items: center;
 		flex: 0.055;
 		padding: 14px 0;
-		background-color: #ec4c56;
-		color: #242933;
+		background-color: $color_text_additional;
+		color: $color_background;
 		font-size: 1.2rem;
 		transition: all 0.2s ease-in;
 		overflow: hidden;
