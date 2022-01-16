@@ -113,6 +113,93 @@ a:hover {
 
 .main {
 	flex: 1 0 auto;
+	&__banner {
+	}
+}
+
+// BANNER {
+
+.banner {
+	display: flex;
+	align-items: center;
+	height: 100vh;
+
+	&__container {
+	}
+
+	&__wrapper {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		flex-direction: row;
+		margin: 0 -15px;
+		> * {
+			margin: 0 15px;
+		}
+	}
+
+	&__header {
+		position: relative;
+		flex: 2;
+	}
+
+	&__title {
+		user-select: none;
+		color: $color_link;
+		font-size: 120px;
+	}
+
+	&__subtitile {
+		line-height: 1.5rem;
+		> * {
+			padding-top: 20px;
+		}
+	}
+
+	&__my-name {
+	}
+
+	&__my-target {
+	}
+
+	&__my-key-skills {
+		color: $color_link;
+	}
+
+	&__photo {
+		flex: 1;
+	}
+}
+
+%photo-banner__filter-before-after {
+	content: '';
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	background-color: $color_background;
+}
+.photo-banner {
+	&__body {
+		position: relative;
+		user-select: none;
+	}
+
+	&__filter {
+		&::before {
+			@extend %photo-banner__filter-before-after;
+			mix-blend-mode: lighten;
+		}
+		&::after {
+			@extend %photo-banner__filter-before-after;
+			mix-blend-mode: color;
+		}
+	}
+
+	&__avatar {
+		img {
+			max-width: 100%;
+		}
+	}
 }
 
 // FOOTER
