@@ -1,23 +1,28 @@
 @import 'reset.scss';
 
+$color_background: #242933;
+$color_link: #f6f0e9;
+$color_text: #596172;
+$color_text_additional: #ec4c56;
+
 // GENERAL
 
 html,
 body {
 	height: 100%;
-	background: #242933;
+	background: $color_background;
 	font-family: 'Roboto Mono', sans-serif;
 	font-size: 1.15em;
 	font-weight: 400;
 	line-height: 1;
-	color: #596172;
+	color: $color_text;
 }
 a {
-	color: #f6f0e9;
+	color: $color_link;
 	transition: all 0.15s ease-in;
 }
 a:hover {
-	color: #ec4c56;
+	color: $color_text_additional;
 }
 :focus {
 	outline: none;
@@ -43,7 +48,7 @@ a:hover {
 .header {
 	position: fixed;
 	width: 100%;
-	background-color: #242933;
+	background-color: $color_background;
 	z-index: 50;
 	box-shadow: 0 0 5px 4px #181d248c;
 	flex: 0 0 auto;
@@ -61,7 +66,7 @@ a:hover {
 	&__logo {
 		font-size: 1.5em;
 		font-weight: 500;
-		color: #ec4c56;
+		color: $color_text_additional;
 		text-transform: capitalize;
 	}
 
@@ -80,7 +85,7 @@ a:hover {
 	content: '';
 	position: absolute;
 	display: block;
-	background-color: #ec4c56;
+	background-color: $color_text_additional;
 	height: 3px;
 	min-width: 35px;
 }
@@ -90,7 +95,7 @@ a:hover {
 
 	&__icon {
 		display: block;
-		background-color: #ec4c56;
+		background-color: $color_text_additional;
 		height: 3px;
 
 		&::before {
@@ -130,7 +135,7 @@ a:hover {
 	&__logo {
 		font-size: 1.4rem;
 		font-weight: 500;
-		color: #ec4c56;
+		color: $color_text_additional;
 		text-transform: capitalize;
 	}
 
