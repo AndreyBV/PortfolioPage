@@ -24,6 +24,7 @@
 				
 			</header>
 			<main class="main">
+
 				<!-- Банер -->
 				<div class="main__banner banner">
 					<div class="banner__container _container">
@@ -48,6 +49,79 @@
 									<div class="photo-banner__filter"></div>
 									<div class="photo-banner__avatar">
 										<img src="./media/img/banner/avatar.png" alt="photo author" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Калькулятор -->
+				<div class="main__calculator calculator">
+					<div class="calculator__container _container">
+						<div class="calculator__wrapper">
+							<div class="calculator__description description-calculator">
+								<div class="description-calculator__title title">
+									<div class="description-calculator__title-text">Калькулятор</div>
+									<div class="description-calculator__title-more-info info fa fa-info-circle"></div>
+								</div>
+								<div class="description-calculator__text text">
+									Наверное, один из распространенных проектов для начинающего Java Script разработчика.
+									Несмотря на кажущуюся простоту, в данном проекте можно выделить достаточно большое
+									количество нюансов и способов их реализации.
+								</div>
+
+							</div>
+							<div class="calculator__body" tabindex="0">
+								<div class="calculator__display display-calculator">
+									<div class="display-calculator__scroll-wrapper-expression display-scroll-wrapper">
+										<div class="display-scroll-wrapper__buttons display-scroll-wrapper__left-button fa fa-angle-left none"></div>
+
+										<div class="display-calculator__item-wrapper display-calculator__expression-wrapper">	
+											<div class="display-calculator__expression"> </div>
+										</div>
+										
+										<div class="display-scroll-wrapper__buttons display-scroll-wrapper__right-button fa fa-angle-right none"></div>
+									</div>
+									<div class="display-calculator__scroll-wrapper-result display-scroll-wrapper">	
+										<div class="display-scroll-wrapper__buttons display-scroll-wrapper__left-button fa fa-angle-left none"></div>
+
+										<div class="display-calculator__item-wrapper display-calculator__result-wrapper">
+											<div class="display-calculator__result">0</div>
+										</div>
+									
+										<div class="display-scroll-wrapper__buttons display-scroll-wrapper__right-button fa fa-angle-right none"></div>
+									</div>
+									
+									<div class="display-calculator__history-navigation">
+										<div class="display-calculator__history-button fa fa-history"></div>							
+									</div>
+									
+								</div>
+
+								<div class="calculator__content">
+									<div class="calculator__keyboard keyboard-calculator">	
+										<template class="keyboard-calculator__button-template">
+											<div class="keyboard-calculator__button">btn</div>
+										</template>
+									</div>
+
+									<div class="calculator__history history-calculator none">
+										<div class="history-calculator__body">
+											<div class="history-calculator__items">
+												<template class="history-calculator__template">
+													<div class="history-calculator__item-wrapper">
+														<div class="history-calculator__item">
+															<div class="history-calculator__expression">5 + 5 =</div>
+															<div class="history-calculator__result">10</div>
+														</div>
+														<div class="history-calculator__solution"></div>
+													</div>
+												</template>
+											</div>
+											<div class="history-calculator__clear-button fa fa-trash">
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -85,5 +159,6 @@
 			</footer>
 		</div>
 		<script src="./js//banner/banner.js" type="module"></script>
+		<script src="./js/calculator/calculator.js" type="module"></script>
 	</body>
 </html>
