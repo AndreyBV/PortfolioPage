@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="./client/css/fonts/font-awesome-470/font-awesome.min.css" />
+		<link rel="stylesheet" href="./client/css/fonts/roboto-mono/stylesheet.css" />
+		<link rel="stylesheet" href="./client/css/main.css" />
+		<title>Portfolio</title>
+	</head>
+	<body>
+		<div class="wrapper">
+			<header class="header">
+				<div class="header__container _container">
+					<div class="header__top">
+						<a href="#" class="header__logo">Portfolio</a>
+						<div class="header__nav-button-wrapper">
+							<div class="header__nav-button nav-button">
+								<span class="nav-button__icon"></span>
+							</div>
+						</div>
+					</div>
+				
+			</header>
+			<main class="main">
+
+				<!-- Банер -->
+				<div class="main__banner banner">
+					<div class="banner__container _container">
+						<div class="banner__wrapper">
+							<div class="banner__header">
+								<div class="banner__title">
+									Welcome
+								</div>
+								<div class="banner__subtitile">
+									<div class="banner__my-name">Меня зовут Андрей.</div>
+									<div class="banner__my-target">
+										Моя основная цель - стать frontend-разработчиком. На данный момент я обладаю следующим
+										набором ключевых навыков:
+									</div>
+									<div class="banner__my-key-skills">
+										HTML, CSS, SCSS/SASS, БЭМ, Java Script, Git, PostgreSQL, MySQL, Figma.
+									</div>
+								</div>
+							</div>
+							<div class="banner__photo photo-banner">
+								<div class="photo-banner__body">
+									<div class="photo-banner__filter"></div>
+									<div class="photo-banner__avatar">
+										<img src="./client/media/img/banner/avatar.png" alt="photo author" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Калькулятор -->
+				<div class="main__calculator calculator">
+					<div class="calculator__container _container">
+						<div class="calculator__wrapper">
+							<div class="calculator__description description-calculator">
+								<div class="description-calculator__title title">
+									<div class="description-calculator__title-text">Калькулятор</div>
+									<div class="description-calculator__title-more-info info fa fa-info-circle"></div>
+								</div>
+								<div class="description-calculator__text text">
+									Наверное, один из распространенных проектов для начинающего Java Script разработчика.
+									Несмотря на кажущуюся простоту, в данном проекте можно выделить достаточно большое
+									количество нюансов и способов их реализации.
+								</div>
+
+							</div>
+							<div class="calculator__body" tabindex="0">
+								<div class="calculator__display display-calculator">
+									<div class="display-calculator__scroll-wrapper-expression display-scroll-wrapper">
+										<div class="display-scroll-wrapper__buttons display-scroll-wrapper__left-button fa fa-angle-left none"></div>
+
+										<div class="display-calculator__item-wrapper display-calculator__expression-wrapper">	
+											<div class="display-calculator__expression"> </div>
+										</div>
+										
+										<div class="display-scroll-wrapper__buttons display-scroll-wrapper__right-button fa fa-angle-right none"></div>
+									</div>
+									<div class="display-calculator__scroll-wrapper-result display-scroll-wrapper">	
+										<div class="display-scroll-wrapper__buttons display-scroll-wrapper__left-button fa fa-angle-left none"></div>
+
+										<div class="display-calculator__item-wrapper display-calculator__result-wrapper">
+											<div class="display-calculator__result">0</div>
+										</div>
+									
+										<div class="display-scroll-wrapper__buttons display-scroll-wrapper__right-button fa fa-angle-right none"></div>
+									</div>
+									
+									<div class="display-calculator__history-navigation">
+										<div class="display-calculator__history-button fa fa-history"></div>							
+									</div>
+									
+								</div>
+
+								<div class="calculator__content">
+									<div class="calculator__keyboard keyboard-calculator">	
+										<template class="keyboard-calculator__button-template">
+											<div class="keyboard-calculator__button">btn</div>
+										</template>
+									</div>
+
+									<div class="calculator__history history-calculator none">
+										<div class="history-calculator__body">
+											<div class="history-calculator__items">
+												<template class="history-calculator__template">
+													<div class="history-calculator__item-wrapper">
+														<div class="history-calculator__item">
+															<div class="history-calculator__expression">5 + 5 =</div>
+															<div class="history-calculator__result">10</div>
+														</div>
+														<div class="history-calculator__solution"></div>
+													</div>
+												</template>
+											</div>
+											<div class="history-calculator__clear-button fa fa-trash">
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Keyboard Simulator  -->
+				<div class="main__keyboard-simulator keyboard-simulator">
+					<div class="keyboard-simulator__container _container">
+						<div class="keyboard-simulator__wrapper">
+							<div class="keyboard-simulator__description description-keyboard-simulator">
+								<div class="description-keyboard-simulator__title title">
+									<div class="description-keyboard-simulator__title-text">Клавиатурный тренажер</div>
+									<div class="description-keyboard-simulator__title-more-info info fa fa-info-circle"></div>
+								</div>
+								<div class="description-keyboard-simulator__text text">
+									Уже достаточно давно я практикую навык слепой десятипальцевой печати. В силу интереса к
+									данной деятельности, возникло желание написать собственный клавиатурный тренажер. В качестве
+									референса использовался сайт
+									<a href="https://monkeytype.com" target="_blank">monkeytype.com</a>, из которого я также
+									вдохновлялся стилем собственной странички.
+								</div>
+								
+							</div>
+							<div class="keyboard-simulator__body body-keyboard-simulator">
+								<div class="body-keyboard-simulator__trainer" tabindex="0">
+									<div class="body-keyboard-simulator__live-stats live-stat-ks">
+										<div class="live-stat-ks__word-counter">
+											<div class="live-stat-ks__input-word">0</div>
+											<div class="live-stat-ks__delimiter">/</div>
+											<div class="live-stat-ks__all-word">0</div>
+										</div>
+										<div class="live-stat-ks__cpm">0</div>
+										<div class="live-stat-ks__time">00s</div>
+										
+									</div>
+
+									<div class="body-keyboard-simulator__text-wrapper">
+										<div class="body-keyboard-simulator__text">
+											<div class="body-keyboard-simulator__caret"></div>
+											<div class="body-keyboard-simulator__words">Lorem ipsum dolor.</div>
+										</div>
+										<div class="body-keyboard-simulator__blur-message none">
+											Кликните мышкой или нажмите любую клавишу.									
+										</div>
+									</div>
+
+								
+
+									<div class="body-keyboard-simulator__reenter">
+										<div class="body-keyboard-simulator__next-text">
+											<span class="fa fa-refresh"></span>
+										</div>
+									</div>
+								</div>
+
+								<div class="body-keyboard-simulator__statistic statistic-keyboard-simulator none" >
+
+									<canvas class="statistic-keyboard-simulator__chart"></canvas>
+
+									<div class="statistic-keyboard-simulator__cpm cell-statistic">
+										<div class="statistic-keyboard-simulator__cpm-title title-chart">cpm</div>
+										<div class="statistic-keyboard-simulator__cpm-value value-chart">0</div>
+									</div>
+									<div class="statistic-keyboard-simulator__accuracy cell-statistic">
+										<div class="statistic-keyboard-simulator__accuracy-title title-chart">acc</div>
+										<div class="statistic-keyboard-simulator__accuracy-value value-chart">0%</div>
+									</div>
+									<div class="statistic-keyboard-simulator__characters cell-statistic">
+										<div class="statistic-keyboard-simulator__characters-title title-chart">characters</div>
+										<div class="statistic-keyboard-simulator__characters-value value-chart">0/0/0/0</div>
+									</div>
+									<div class="statistic-keyboard-simulator__time cell-statistic">
+										<div class="statistic-keyboard-simulator__time-title title-chart">time</div>
+										<div class="statistic-keyboard-simulator__time-value value-chart">00:00</div>
+									</div>
+									<div class="statistic-keyboard-simulator__source cell-statistic">
+										<div class="statistic-keyboard-simulator__source-title title-chart">source</div>
+										<div class="statistic-keyboard-simulator__source-value value-chart">
+											Lorem ipsum dolor sit amet.
+										</div>
+									</div>
+
+									<div class="statistic-keyboard-simulator__reenter">
+										<div class="statistic-keyboard-simulator__repeat-text">
+											<span class="fa fa-refresh"></span>
+										</div>
+										<div class="statistic-keyboard-simulator__next-text">
+											<span class="fa fa-share"></span>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+			</main>
+			<footer class="footer">
+				<div class="footer__container _container">
+					<div class="footer__logo">Contact Me</div>
+					<div class="footer__social-media">
+						<ul>
+							<li>
+								<a href="mailto:andrey.bv.gm@gmail.com" target="_blank"
+									><span class="fa fa-envelope"></span>
+								</a>
+							</li>
+							<li>
+								<a href="tg://resolve?domain=andrey_bv_tg" target="_blank"
+									><span class="fa fa-paper-plane"></span>
+								</a>
+							</li>
+							<li>
+								<a href="https://github.com/AndreyBV" target="_blank"><span class="fa fa-github"></span> </a>
+							</li>
+						</ul>
+					</div>
+
+					<div class="footer__copyright">
+						<span class="fa fa-copyright"></span>
+						Barsukov Andrey
+					</div>
+				</div>
+			</footer>
+		</div>
+		<script src="./client/js//banner/banner.js" type="module"></script>
+		<script src="./client/js/calculator/calculator.js" type="module"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.2/chart.js"></script>
+		<script src="./client/js/keyboard-simulator/keyboard-simulator.js" type="module"></script>
+	</body>
+</html>
