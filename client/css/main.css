@@ -162,6 +162,20 @@ a:hover {
   height: 100vh;
 }
 
+.main__keyboard-simulator {
+  height: 100vh;
+}
+
+.title {
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: #ec4c56;
+}
+
+.text {
+  line-height: 1.4rem;
+}
+
 .calculator {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -697,6 +711,331 @@ a:hover {
 
 .photo-banner__avatar img {
   max-width: 100%;
+}
+
+.keyboard-simulator {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.keyboard-simulator__wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  margin: -15px -15px;
+}
+
+.keyboard-simulator__wrapper > * {
+  margin: 15px 15px;
+}
+
+.keyboard-simulator__description {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.keyboard-simulator__description > *:not(:first-child) {
+  padding-top: 20px;
+}
+
+.keyboard-simulator__body {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  position: relative;
+}
+
+.description-keyboard-simulator__title {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.description-keyboard-simulator__title > *:not(:first-child) {
+  padding-left: 15px;
+}
+
+.body-keyboard-simulator__live-stats {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: 1fr;
+  -ms-grid-columns: auto 1fr auto auto;
+      grid-template: 1fr / auto 1fr auto auto;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: start;
+  color: #ec4c56;
+}
+
+.body-keyboard-simulator__text-wrapper {
+  position: relative;
+}
+
+.body-keyboard-simulator__text {
+  position: relative;
+  line-height: 1.4em;
+}
+
+.body-keyboard-simulator__text_blur {
+  -webkit-filter: blur(5px);
+          filter: blur(5px);
+  color: #596172;
+}
+
+.body-keyboard-simulator__caret {
+  position: absolute;
+  -webkit-transform: translate(-50%, 0);
+          transform: translate(-50%, 0);
+  width: 3px;
+  height: 30px;
+  border-radius: 10px;
+  background-color: #ec4c56;
+  -webkit-animation: caretFlashSmooth 1s infinite;
+          animation: caretFlashSmooth 1s infinite;
+}
+
+@-webkit-keyframes caretFlashSmooth {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes caretFlashSmooth {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.body-keyboard-simulator__words {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.body-keyboard-simulator__words > *:not(:last-child) {
+  margin: 0 0.35em 0 0;
+}
+
+.body-keyboard-simulator__word_error {
+  border-bottom: 2px solid #ec4c56;
+}
+
+.body-keyboard-simulator__symbol_correct {
+  color: #f6f0e9;
+}
+
+.body-keyboard-simulator__symbol_incorrect {
+  color: #ec4c56;
+}
+
+.body-keyboard-simulator__symbol_extra {
+  color: #9b333a;
+}
+
+.body-keyboard-simulator__blur-message {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  text-align: center;
+  font-size: 0.9rem;
+  line-height: 1.4rem;
+  color: #f6f0e9;
+}
+
+.body-keyboard-simulator__reenter {
+  padding-top: 30px;
+  text-align: center;
+}
+
+.body-keyboard-simulator__next-text {
+  display: inline;
+  padding: 5px 25px;
+  border-radius: 5px;
+  -webkit-transition: color 0.2s ease-in, color 0.2s ease-in;
+  transition: color 0.2s ease-in, color 0.2s ease-in;
+}
+
+.body-keyboard-simulator__next-text:hover {
+  color: #ec4c56;
+}
+
+.live-stat-ks {
+  margin: -7.5px;
+}
+
+.live-stat-ks > * {
+  margin: 7.5px;
+}
+
+.live-stat-ks__word-counter {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.live-stat-ks__delimiter {
+  margin: 0 5px;
+}
+
+.statistic-keyboard-simulator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: -ms-grid;
+  display: grid;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: start;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  grid-row: repeat(4, auto);
+  grid-column: auto auto 1fr;
+  gap: 0.5rem 1rem;
+}
+
+.statistic-keyboard-simulator__chart {
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 3;
+  grid-column: 1/4;
+  -webkit-box-ordinal-group: 1;
+      -ms-flex-order: 0;
+          order: 0;
+}
+
+.statistic-keyboard-simulator__cpm {
+  -webkit-box-ordinal-group: 2;
+      -ms-flex-order: 1;
+          order: 1;
+}
+
+.statistic-keyboard-simulator__cpm-value {
+  font-size: 2.2rem;
+}
+
+.statistic-keyboard-simulator__accuracy {
+  -webkit-box-ordinal-group: 5;
+      -ms-flex-order: 4;
+          order: 4;
+}
+
+.statistic-keyboard-simulator__accuracy-value {
+  font-size: 2.3rem;
+}
+
+.statistic-keyboard-simulator__characters {
+  -webkit-box-ordinal-group: 3;
+      -ms-flex-order: 2;
+          order: 2;
+}
+
+.statistic-keyboard-simulator__characters-value {
+  font-size: 1.7rem;
+}
+
+.statistic-keyboard-simulator__time {
+  -webkit-box-ordinal-group: 4;
+      -ms-flex-order: 3;
+          order: 3;
+}
+
+.statistic-keyboard-simulator__time-value {
+  font-size: 1.7rem;
+}
+
+.statistic-keyboard-simulator__source {
+  -webkit-box-ordinal-group: 6;
+      -ms-flex-order: 5;
+          order: 5;
+  -ms-grid-column: 2;
+  -ms-grid-column-span: 2;
+  grid-column: 2/4;
+}
+
+.statistic-keyboard-simulator__source-value {
+  font-size: 1.1rem;
+}
+
+.statistic-keyboard-simulator__reenter {
+  -webkit-box-ordinal-group: 7;
+      -ms-flex-order: 6;
+          order: 6;
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 3;
+  grid-column: 1/4;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding: 5px 0;
+}
+
+.statistic-keyboard-simulator__repeat-text {
+  display: inline;
+  padding: 5px 20px;
+  -webkit-transition: color 0.2s ease-in, color 0.2s ease-in;
+  transition: color 0.2s ease-in, color 0.2s ease-in;
+}
+
+.statistic-keyboard-simulator__repeat-text:hover {
+  color: #ec4c56;
+}
+
+.statistic-keyboard-simulator__next-text {
+  display: inline;
+  padding: 5px 20px;
+  -webkit-transition: color 0.2s ease-in, color 0.2s ease-in;
+  transition: color 0.2s ease-in, color 0.2s ease-in;
+}
+
+.statistic-keyboard-simulator__next-text:hover {
+  color: #ec4c56;
+}
+
+.title-chart {
+  font-size: 0.8rem;
+}
+
+.value-chart {
+  color: #ec4c56;
 }
 
 .footer {
