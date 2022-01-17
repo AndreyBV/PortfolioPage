@@ -1,4 +1,4 @@
-import { rnd, checkInSight, isContains } from '../_plugin/tools.js';
+import { rnd, checkInSight, isContains } from '../plugins/tools.js';
 
 class Glitch {
 	constructor(

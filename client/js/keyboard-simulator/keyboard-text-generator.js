@@ -1,4 +1,4 @@
-import { rnd } from '../_plugin/tools.js';
+import { rnd } from '../plugins/tools.js';
 
 class TextGenerator {
 	constructor(

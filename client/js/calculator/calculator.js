@@ -1,6 +1,6 @@
 import { calculatorBuild, keyboardSymbols } from './calculator-build.js';
 import { scrollDisplay } from './calculator-scroll-display.js';
-import { play as animPlay } from '../_plugin/animation.js';
+import { play as animPlay } from '../plugins/animation.js';
 //
 // ─── CALCULATOR ─────────────────────────────────────────────────────────────────
 //

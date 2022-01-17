@@ -1,7 +1,7 @@
 import TextGenerator from './keyboard-text-generator.js';
 import KeyboardStatistic from './keyboard-statistics.js';
-import { getDOMElements } from '../_plugin/getter-dom-elements.js';
-import { rnd } from '../_plugin/tools.js';
+import { getDOMElements } from '../plugins/getter-dom-elements.js';
+import { rnd } from '../plugins/tools.js';
 
 class KeyboardSimulator {
 	constructor(DOMElements, textGenerator = new TextGenerator(), statistics = new KeyboardStatistic()) {

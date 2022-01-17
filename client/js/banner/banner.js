@@ -1,4 +1,4 @@
-import Glitch from '../_plugin/glitch.js';
+import Glitch from '../plugins/glitch.js';
 
 const target = document.querySelector('.banner__title');
 const settingsGlitch = {

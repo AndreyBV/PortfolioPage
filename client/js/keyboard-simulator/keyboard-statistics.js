@@ -1,4 +1,4 @@
-import Stopwatch from '../_plugin/stopwatch.js';
+import Stopwatch from '../plugins/stopwatch.js';
 
 // Формулы расчета статистических данных:
 // https://klavogonki.ru/wiki/Скорость
